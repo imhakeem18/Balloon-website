@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subcategory Mockups - Balloons Galore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff1b8d",
+                        "secondary": "#ff6b9d",
+                        "accent": "#c86dd7",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .mockup-container {
+            background: linear-gradient(135deg, #fff5f9 0%, #ffe8f3 100%);
+        }
+        
+        /* Option 1: Slide-Out Drawer */
+        .drawer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .drawer.active {
+            max-height: 500px;
+        }
+        
+        /* Option 2: Horizontal Chips */
+        .chips-container {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .chips-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Option 3: Modal */
+        .modal {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        /* Option 4: Accordion */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .accordion-content.active {
+            max-height: 600px;
+        }
+        
+        .hover-lift {
+            transition: transform 0.2s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-6xl mx-auto p-4 space-y-8">
+        <div class="text-center py-8">
+            <h1 class="text-4xl font-black mb-3 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Subcategory Display Options
+            </h1>
+            <p class="text-gray-600">Click the "Try Demo" buttons to see each option in action</p>
+        </div>
+
+        <!-- Option 1: Slide-Out Drawer -->
+        <div class="mockup-container rounded-3xl p-6 shadow-xl">
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Option 1: Slide-Out Drawer with Cards</h2>
+                <p class="text-gray-600 text-sm mb-4">Smooth animated drawer shows subcategory cards below the selected category</p>
+                <button onclick="toggleDrawer()" class="bg-gradient-to-r from-primary to-accent text-white px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform">
+                    Try Demo
+                </button>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-4 shadow-md">
+                <!-- Category Tabs -->
+                <div class="flex gap-2 overflow-x-auto pb-2">
+                    <button onclick="toggleDrawer()" class="px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-full text-sm font-bold whitespace-nowrap">
+                        🎈 Helium Balloons
+                    </button>
+                    <button class="px-6 py-3 bg-gray-100 rounded-full text-sm font-bold whitespace-nowrap">
+                        🎨 Accessories
+                    </button>
+                    <button class="px-6 py-3 bg-gray-100 rounded-full text-sm font-bold whitespace-nowrap">
+                        🌸 Flowers
+                    </button>
+                </div>
+                
+                <!-- Drawer Content -->
+                <div id="drawer" class="drawer mt-4">
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div class="hover-lift bg-gradient-to-br from-pink-50 to-purple-50 p-4 rounded-xl border-2 border-primary/20 cursor-pointer">
+                            <div class="text-3xl mb-2">🎈</div>
+                            <h3 class="font-bold text-sm mb-1">Single Helium</h3>
+                            <p class="text-xs text-gray-600">Individual balloons</p>
+                        </div>
+                        <div class="hover-lift bg-gradient-to-br from-pink-50 to-purple-50 p-4 rounded-xl border-2 border-primary/20 cursor-pointer">
+                            <div class="text-3xl mb-2">🎁</div>
+                            <h3 class="font-bold text-sm mb-1">Balloon Bundles</h3>
+                            <p class="text-xs text-gray-600">Pre-made sets</p>
+                        </div>
+                        <div class="hover-lift bg-gradient-to-br from-pink-50 to-purple-50 p-4 rounded-xl border-2 border-primary/20 cursor-pointer">
+                            <div class="text-3xl mb-2">🔢</div>
+                            <h3 class="font-bold text-sm mb-1">Number & Letter</h3>
+                            <p class="text-xs text-gray-600">Custom messages</p>
+                        </div>
+                        <div class="hover-lift bg-gradient-to-br from-pink-50 to-purple-50 p-4 rounded-xl border-2 border-primary/20 cursor-pointer">
+                            <div class="text-3xl mb-2">✨</div>
+                            <h3 class="font-bold text-sm mb-1">Confetti Balloons</h3>
+                            <p class="text-xs text-gray-600">Filled with magic</p>
+                        </div>
+                        <div class="hover-lift bg-gradient-to-br from-pink-50 to-purple-50 p-4 rounded-xl border-2 border-primary/20 cursor-pointer">
+                            <div class="text-3xl mb-2">💭</div>
+                            <h3 class="font-bold text-sm mb-1">Bubble & Orbz</h3>
+                            <p class="text-xs text-gray-600">Transparent style</p>
+                        </div>
+                        <div class="hover-lift bg-gradient-to-br from-pink-50 to-purple-50 p-4 rounded-xl border-2 border-primary/20 cursor-pointer">
+                            <div class="text-3xl mb-2">🖨️</div>
+                            <h3 class="font-bold text-sm mb-1">Personalized</h3>
+                            <p class="text-xs text-gray-600">Custom prints</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Option 2: Horizontal Chips -->
+        <div class="mockup-container rounded-3xl p-6 shadow-xl">
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Option 2: Horizontal Scrollable Chips</h2>
+                <p class="text-gray-600 text-sm mb-4">Instagram-style chips that appear below selected category</p>
+                <button onclick="toggleChips()" class="bg-gradient-to-r from-primary to-accent text-white px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform">
+                    Try Demo
+                </button>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-4 shadow-md">
+                <!-- Category Tabs -->
+                <div class="flex gap-2 overflow-x-auto pb-2 mb-3">
+                    <button onclick="toggleChips()" class="px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-full text-sm font-bold whitespace-nowrap">
+                        🎈 Helium Balloons
+                    </button>
+                    <button class="px-6 py-3 bg-gray-100 rounded-full text-sm font-bold whitespace-nowrap">
+                        🎨 Accessories
+                    </button>
+                    <button class="px-6 py-3 bg-gray-100 rounded-full text-sm font-bold whitespace-nowrap">
+                        🌸 Flowers
+                    </button>
+                </div>
+                
+                <!-- Subcategory Chips -->
+                <div id="chips" class="chips-container flex gap-2 overflow-x-auto pb-2" style="display: none;">
+                    <button class="px-4 py-2 bg-gradient-to-r from-pink-100 to-purple-100 border-2 border-primary rounded-full text-xs font-bold whitespace-nowrap hover:scale-105 transition-transform">
+                        🎈 Single Helium
+                    </button>
+                    <button class="px-4 py-2 bg-white border-2 border-gray-200 rounded-full text-xs font-semibold whitespace-nowrap hover:border-primary transition-colors">
+                        🎁 Bundles
+                    </button>
+                    <button class="px-4 py-2 bg-white border-2 border-gray-200 rounded-full text-xs font-semibold whitespace-nowrap hover:border-primary transition-colors">
+                        🔢 Number & Letter
+                    </button>
+                    <button class="px-4 py-2 bg-white border-2 border-gray-200 rounded-full text-xs font-semibold whitespace-nowrap hover:border-primary transition-colors">
+                        ✨ Confetti
+                    </button>
+                    <button class="px-4 py-2 bg-white border-2 border-gray-200 rounded-full text-xs font-semibold whitespace-nowrap hover:border-primary transition-colors">
+                        💭 Bubble & Orbz
+                    </button>
+                    <button class="px-4 py-2 bg-white border-2 border-gray-200 rounded-full text-xs font-semibold whitespace-nowrap hover:border-primary transition-colors">
+                        🖨️ Personalized
+                    </button>
+                </div>
+                
+                <div class="mt-4 p-4 bg-gray-50 rounded-xl text-center text-sm text-gray-500">
+                    Products will appear here...
+                </div>
+            </div>
+        </div>
+
+        <!-- Option 3: Modal/Bottom Sheet -->
+        <div class="mockup-container rounded-3xl p-6 shadow-xl">
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Option 3: Modal/Bottom Sheet</h2>
+                <p class="text-gray-600 text-sm mb-4">Full-screen modal with image grid (most visually impressive)</p>
+                <button onclick="toggleModal()" class="bg-gradient-to-r from-primary to-accent text-white px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform">
+                    Try Demo
+                </button>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-4 shadow-md">
+                <div class="flex gap-2 overflow-x-auto pb-2">
+                    <button onclick="toggleModal()" class="px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-full text-sm font-bold whitespace-nowrap">
+                        🎈 Helium Balloons
+                    </button>
+                    <button class="px-6 py-3 bg-gray-100 rounded-full text-sm font-bold whitespace-nowrap">
+                        🎨 Accessories
+                    </button>
+                </div>
+                
+                <div class="mt-4 p-4 bg-gray-50 rounded-xl text-center text-sm text-gray-500">
+                    Click category to see modal...
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Overlay -->
+        <div id="modal" class="modal fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+                <div class="sticky top-0 bg-white border-b border-gray-200 p-4 flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Choose Subcategory</h3>
+                    <button onclick="toggleModal()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200">
+                        ✕
+                    </button>
+                </div>
+                <div class="p-6 grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="hover-lift cursor-pointer">
+                        <div class="aspect-square bg-gradient-to-br from-pink-200 to-purple-200 rounded-2xl mb-2 flex items-center justify-center text-4xl">
+                            🎈
+                        </div>
+                        <h4 class="font-bold text-sm text-center">Single Helium</h4>
+                    </div>
+                    <div class="hover-lift cursor-pointer">
+                        <div class="aspect-square bg-gradient-to-br from-pink-200 to-purple-200 rounded-2xl mb-2 flex items-center justify-center text-4xl">
+                            🎁
+                        </div>
+                        <h4 class="font-bold text-sm text-center">Bundles</h4>
+                    </div>
+                    <div class="hover-lift cursor-pointer">
+                        <div class="aspect-square bg-gradient-to-br from-pink-200 to-purple-200 rounded-2xl mb-2 flex items-center justify-center text-4xl">
+                            🔢
+                        </div>
+                        <h4 class="font-bold text-sm text-center">Number & Letter</h4>
+                    </div>
+                    <div class="hover-lift cursor-pointer">
+                        <div class="aspect-square bg-gradient-to-br from-pink-200 to-purple-200 rounded-2xl mb-2 flex items-center justify-center text-4xl">
+                            ✨
+                        </div>
+                        <h4 class="font-bold text-sm text-center">Confetti</h4>
+                    </div>
+                    <div class="hover-lift cursor-pointer">
+                        <div class="aspect-square bg-gradient-to-br from-pink-200 to-purple-200 rounded-2xl mb-2 flex items-center justify-center text-4xl">
+                            💭
+                        </div>
+                        <h4 class="font-bold text-sm text-center">Bubble & Orbz</h4>
+                    </div>
+                    <div class="hover-lift cursor-pointer">
+                        <div class="aspect-square bg-gradient-to-br from-pink-200 to-purple-200 rounded-2xl mb-2 flex items-center justify-center text-4xl">
+                            🖨️
+                        </div>
+                        <h4 class="font-bold text-sm text-center">Personalized</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Option 4: Accordion -->
+        <div class="mockup-container rounded-3xl p-6 shadow-xl">
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Option 4: Accordion (Best for Mobile)</h2>
+                <p class="text-gray-600 text-sm mb-4">Expandable sections with clean list layout</p>
+                <button onclick="toggleAccordion()" class="bg-gradient-to-r from-primary to-accent text-white px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform">
+                    Try Demo
+                </button>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-4 shadow-md space-y-2">
+                <!-- Accordion Item 1 -->
+                <div class="border-2 border-gray-200 rounded-xl overflow-hidden">
+                    <button onclick="toggleAccordion()" class="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                        <span class="font-bold text-left flex items-center gap-2">
+                            🎈 Helium Balloons
+                        </span>
+                        <svg id="accordion-icon" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="accordion" class="accordion-content bg-gray-50">
+                        <div class="p-4 pt-0 space-y-2">
+                            <a href="#" class="block p-3 bg-white rounded-lg hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors border border-transparent hover:border-primary/20">
+                                <div class="font-semibold text-sm">🎈 Single Helium Balloons</div>
+                                <div class="text-xs text-gray-600">Individual balloons</div>
+                            </a>
+                            <a href="#" class="block p-3 bg-white rounded-lg hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors border border-transparent hover:border-primary/20">
+                                <div class="font-semibold text-sm">🎁 Balloon Bundles</div>
+                                <div class="text-xs text-gray-600">Pre-made sets</div>
+                            </a>
+                            <a href="#" class="block p-3 bg-white rounded-lg hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors border border-transparent hover:border-primary/20">
+                                <div class="font-semibold text-sm">🔢 Number & Letter Balloons</div>
+                                <div class="text-xs text-gray-600">Custom messages</div>
+                            </a>
+                            <a href="#" class="block p-3 bg-white rounded-lg hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors border border-transparent hover:border-primary/20">
+                                <div class="font-semibold text-sm">✨ Confetti Balloons</div>
+                                <div class="text-xs text-gray-600">Filled with magic</div>
+                            </a>
+                            <a href="#" class="block p-3 bg-white rounded-lg hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors border border-transparent hover:border-primary/20">
+                                <div class="font-semibold text-sm">💭 Bubble & Orbz Balloons</div>
+                                <div class="text-xs text-gray-600">Transparent style</div>
+                            </a>
+                            <a href="#" class="block p-3 bg-white rounded-lg hover:bg-gradient-to-r hover:from-pink-50 hover:to-purple-50 transition-colors border border-transparent hover:border-primary/20">
+                                <div class="font-semibold text-sm">🖨️ Personalized Printed</div>
+                                <div class="text-xs text-gray-600">Custom prints</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Accordion Item 2 -->
+                <div class="border-2 border-gray-200 rounded-xl overflow-hidden">
+                    <button class="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                        <span class="font-bold text-left flex items-center gap-2">
+                            🎨 Balloons & Accessories
+                        </span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Accordion Item 3 -->
+                <div class="border-2 border-gray-200 rounded-xl overflow-hidden">
+                    <button class="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                        <span class="font-bold text-left flex items-center gap-2">
+                            🌸 Flowers
+                        </span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="bg-white rounded-3xl p-6 shadow-xl">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Quick Comparison</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b-2 border-gray-200">
+                            <th class="text-left p-3 font-bold">Feature</th>
+                            <th class="text-center p-3 font-bold">Option 1</th>
+                            <th class="text-center p-3 font-bold">Option 2</th>
+                            <th class="text-center p-3 font-bold">Option 3</th>
+                            <th class="text-center p-3 font-bold">Option 4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-100">
+                            <td class="p-3 font-semibold">Mobile Friendly</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr class="border-b border-gray-100">
+                            <td class="p-3 font-semibold">Visual Impact</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐</td>
+                        </tr>
+                        <tr class="border-b border-gray-100">
+                            <td class="p-3 font-semibold">Space Efficiency</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-semibold">Ease of Use</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐</td>
+                            <td class="text-center p-3">⭐⭐⭐⭐⭐</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDrawer() {
+            const drawer = document.getElementById('drawer');
+            drawer.classList.toggle('active');
+        }
+
+        function toggleChips() {
+            const chips = document.getElementById('chips');
+            if (chips.style.display === 'none' || chips.style.display === '') {
+                chips.style.display = 'flex';
+            } else {
+                chips.style.display = 'none';
+            }
+        }
+
+        function toggleModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.toggle('active');
+            document.body.style.overflow = modal.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        function toggleAccordion() {
+            const accordion = document.getElementById('accordion');
+            const icon = document.getElementById('accordion-icon');
+            accordion.classList.toggle('active');
+            icon.style.transform = accordion.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+    </script>
+</body>
+</html>

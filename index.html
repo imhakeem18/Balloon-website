@@ -39,7 +39,83 @@
             },
         }
     </script>
+
+     
     <style>
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .animate-slideIn {
+            animation: slideIn 0.3s ease-out;
+        }
+/* Dropdown menu styles */
+.dropdown {
+    position: relative;
+}
+
+.dropdown > button {
+    padding: 0.5rem 0;
+}
+
+/* Dropdown panel */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: -1rem;
+    margin-top: 0;
+     padding-top: 0.5rem;  /* Keep spacing inside */
+    padding-left: 1rem;
+    padding-right: 1rem;
+    min-width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.25s ease;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Keep it open when hovering over button or dropdown */
+.dropdown:hover .dropdown-menu,
+.dropdown-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Inner dropdown styling */
+.dropdown-menu-inner {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(255, 27, 141, 0.1);
+    padding: 0.5rem 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 1001;
+}
+
+.dark .dropdown-menu-inner {
+    background: rgba(26, 13, 20, 0.9);
+}
+
+/* FIX: ensure parent header or containers don't hide dropdowns */
+header,
+.layout-container {
+    overflow: visible !important;
+}
+       
+
         /* Custom animations and effects */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
@@ -100,51 +176,178 @@
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+  
     <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
         <div class="layout-container flex h-full grow flex-col">
             <!-- Enhanced Header -->
             <header class="sticky top-0 z-50 glass-effect border-b border-primary/10">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-between py-4">
-                        <!-- Left Section - Nav Links -->
-                        <nav class="hidden lg:flex items-center gap-6 flex-1">
-                            <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="#">Home</a>
-                            <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="#">Shop</a>
-                            <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="#">Categories</a>
-                        </nav>
+                <div class="max-w-7xl mx-auto pr-3 sm:pr-6 lg:pr-8">
+                    <div class="flex items-center justify-between py-2 sm:py-4">
+                        <!-- Left Section - Logo (Desktop) / Hamburger (Mobile) -->
+                        <div class="flex items-center flex-1">
+                            <!-- Mobile Hamburger Menu Button -->
+                            <button id="mobileMenuBtn" class="lg:hidden flex cursor-pointer items-center justify-center rounded-xl h-9 w-9 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform ml-3">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                </svg>
+                            </button>
+                            
+                            <!-- Logo - Desktop Left Side -->
+                            <div class="hidden lg:flex items-center">
+                                <img src="images/logo new.jpg" alt="Balloons Galore" class="h-20" style="width: auto; max-width: none;">
+                            </div>
+                            
+                            <!-- Desktop Navigation -->
+                            <nav class="hidden lg:flex items-center gap-6 ml-8">
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="#">Home</a>
+                                
+                                <!-- Services Dropdown -->
+                                <div class="dropdown">
+                                    <button class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105 flex items-center gap-1 py-2">
+                                        Services
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M3 4.5L6 7.5L9 4.5"/>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-menu-inner">
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="#">Balloon Décor</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="#">Event Styling</a>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Products Dropdown -->
+                                <div class="dropdown">
+                                    <button class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105 flex items-center gap-1 py-2">
+                                        Products
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M3 4.5L6 7.5L9 4.5"/>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-menu-inner">
+                                             <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="products.html?category=helium">Helium Balloons</a>
+                                             <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="products.html?category=accessories">Balloons & Accessories</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="products.html?category=flowers">Flowers</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="products.html?category=cakes">Cakes & Desserts</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="products.html?category=chocolates">Chocolates & Gifts</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="#">Occasions</a>
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="#">Gallery</a>
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="#">Contact</a>
+                            </nav>
+                        </div>
                         
-                        <!-- Center - Logo -->
-                        <div class="flex items-center justify-center">
-                            <img src="images/logo new.jpg" alt="Balloons Galore" class="h-16 md:h-20 w-auto">
+                        <!-- Center - Logo (Mobile Only) -->
+                        <div class="flex lg:hidden items-center justify-center">
+                            <img src="images/logo new.jpg" alt="Balloons Galore" class="h-10 sm:h-14 md:h-20 w-auto">
                         </div>
                         
                         <!-- Right Section - Search & Icons -->
-                        <div class="flex items-center gap-3 justify-end flex-1">
-                          <label class="hidden md:flex flex-col min-w-48 max-w-64 relative w-full">
-    <input 
-        type="text"
-        placeholder="Search products..."
-        class="w-full rounded-full bg-white/80 dark:bg-surface-dark/80 shadow-md focus:outline-none focus:ring-2 focus:ring-primary pl-10 pr-4 py-2 text-text-light dark:text-text-dark placeholder:text-subtext-light placeholder:dark:text-subtext-dark text-sm font-medium"
-        value=""
-    />
-    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-subtext-light dark:text-subtext-dark text-lg">
-        search
-    </span>
-</label>
-
+                        <div class="flex items-center gap-2 sm:gap-3 justify-end flex-1">
+                            <label class="hidden md:flex flex-col min-w-48 max-w-64 relative w-full">
+                                <input 
+                                    type="text"
+                                    placeholder="Search products..."
+                                    class="w-full rounded-full bg-white/80 dark:bg-surface-dark/80 shadow-md focus:outline-none focus:ring-2 focus:ring-primary pl-10 pr-4 py-2 text-text-light dark:text-text-dark placeholder:text-subtext-light placeholder:dark:text-subtext-dark text-sm font-medium"
+                                    value=""
+                                />
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-subtext-light dark:text-subtext-dark text-lg">
+                                    search
+                                </span>
+                            </label>
 
                             <div class="flex gap-2">
-                                <button class="flex cursor-pointer items-center justify-center rounded-2xl h-10 w-10 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform shadow-sm">
-                                    <span class="material-symbols-outlined" style="font-size: 20px;">person</span>
+                                <button class="flex cursor-pointer items-center justify-center rounded-2xl h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform shadow-sm">
+                                    <span class="material-symbols-outlined" style="font-size: 18px;">person</span>
                                 </button>
-                                <button class="flex cursor-pointer items-center justify-center rounded-2xl h-10 w-10 bg-gradient-to-br from-primary to-accent text-white hover:scale-110 transition-transform shadow-lg shadow-primary/30">
-                                    <span class="material-symbols-outlined" style="font-size: 20px;">shopping_cart</span>
+                                <button class="flex cursor-pointer items-center justify-center rounded-2xl h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-primary to-accent text-white hover:scale-110 transition-transform shadow-lg shadow-primary/30">
+                                    <span class="material-symbols-outlined" style="font-size: 18px;">shopping_cart</span>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </header>
+
+            <!-- Mobile Menu Overlay - Moved outside header -->
+            <div id="mobileMenu" class="lg:hidden hidden fixed inset-0 z-[9999]">
+                <!-- Dark backdrop -->
+                <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+                
+                <!-- Menu panel -->
+                <div class="relative glass-effect w-80 h-full shadow-2xl animate-slideIn overflow-y-auto">
+                    <div class="flex items-center justify-between p-4 border-b border-primary/10">
+                        <img src="images/logo new.jpg" alt="Balloons Galore" class="h-12 w-auto">
+                        <button id="closeMobileMenu" class="flex cursor-pointer items-center justify-center rounded-xl h-9 w-9 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="flex flex-col p-4 gap-1">
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🏠</span> Home
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="index3.html">
+                            <span>🏠</span> index 3
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🎈</span> Balloon Décor
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🎨</span> Event Styling
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🎈</span> Helium Balloons
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🌸</span> Flowers
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🎂</span> Cakes & Desserts
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🍫</span> Chocolates & Gifts
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🛍️</span> Shop Balloons & Accessories
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🎉</span> Occasions
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>📸</span> Gallery
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>📞</span> Contact & Bookings
+                        </a>
+                        
+                        <!-- Mobile Search -->
+                        <div class="mt-4 pt-4 border-t border-primary/10">
+                            <label class="flex flex-col relative w-full">
+                                <input 
+                                    type="text"
+                                    placeholder="Search products..."
+                                    class="w-full rounded-full bg-surface-light dark:bg-surface-dark shadow-md focus:outline-none focus:ring-2 focus:ring-primary pl-10 pr-4 py-3 text-text-light dark:text-text-dark placeholder:text-subtext-light placeholder:dark:text-subtext-dark text-sm font-medium"
+                                />
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-subtext-light dark:text-subtext-dark text-lg">
+                                    search
+                                </span>
+                            </label>
+                        </div>
+                    </nav>
+                </div>
+            </div>
 
             <main class="flex-1">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
@@ -189,20 +392,20 @@
                                     </div>
                                 </div>
 
-                                <!-- Occasion 2 -->
-                                <div class="hover-lift relative group bg-cover bg-center flex flex-col justify-end rounded-2xl p-6 aspect-[3/4] overflow-hidden shadow-xl cursor-pointer" style='background-image: url("https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&q=80");'>
-                                    <div class="absolute inset-0 bg-gradient-to-t from-pink-900/70 via-pink-500/20 to-transparent group-hover:from-pink-900/80 transition-all"></div>
-                                    <div class="relative">
-                                        <p class="text-white text-3xl font-black leading-tight mb-2 drop-shadow-lg">Anniversaries 💑</p>
-                                        <p class="text-white/90 text-sm font-medium">Love & togetherness</p>
-                                    </div>
-                                </div>
+                               <!-- Occasion 2 -->
+<div class="hover-lift relative group bg-cover bg-center flex flex-col justify-end rounded-2xl p-6 aspect-[3/4] overflow-hidden shadow-xl cursor-pointer" style="background-image: url('images/baby.jpg');">
+  <div class="absolute inset-0 bg-gradient-to-t from-pink-900/70 via-pink-500/20 to-transparent group-hover:from-pink-900/80 transition-all"></div>
+  <div class="relative">
+    <p class="text-white text-3xl font-black leading-tight mb-2 drop-shadow-lg">Baby Celebrations👶</p>
+    <p class="text-white/90 text-sm font-medium"></p>
+  </div>
+</div>
 
                                 <!-- Occasion 3 -->
                                 <div class="hover-lift relative group bg-cover bg-center flex flex-col justify-end rounded-2xl p-6 aspect-[3/4] overflow-hidden shadow-xl cursor-pointer" style='background-image: url("https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&q=80");'>
                                     <div class="absolute inset-0 bg-gradient-to-t from-purple-900/70 via-purple-500/20 to-transparent group-hover:from-purple-900/80 transition-all"></div>
                                     <div class="relative">
-                                        <p class="text-white text-3xl font-black leading-tight mb-2 drop-shadow-lg">Weddings 💍</p>
+                                        <p class="text-white text-3xl font-black leading-tight mb-2 drop-shadow-lg">Anniversaries & Proposals💍</p>
                                         <p class="text-white/90 text-sm font-medium">Begin forever together</p>
                                     </div>
                                 </div>
@@ -211,8 +414,8 @@
                                 <div class="hover-lift relative group bg-cover bg-center flex flex-col justify-end rounded-2xl p-6 aspect-[3/4] overflow-hidden shadow-xl cursor-pointer" style='background-image: url("https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=600&q=80");'>
                                     <div class="absolute inset-0 bg-gradient-to-t from-blue-900/70 via-blue-500/20 to-transparent group-hover:from-blue-900/80 transition-all"></div>
                                     <div class="relative">
-                                        <p class="text-white text-3xl font-black leading-tight mb-2 drop-shadow-lg">Baby Showers 👶</p>
-                                        <p class="text-white/90 text-sm font-medium">Welcome little ones</p>
+                                        <p class="text-white text-3xl font-black leading-tight mb-2 drop-shadow-lg">Achievements & Special Events</p>
+                                        <p class="text-white/90 text-sm font-medium">Love & togetherness</p>
                                     </div>
                                 </div>
                             </div>
@@ -314,8 +517,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </main>
@@ -356,8 +557,41 @@
                     </div>
                 </div>
             </footer>
-
         </div>
     </div>
+
+    <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMobileMenu = document.getElementById('closeMobileMenu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    });
+    
+    closeMobileMenu.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    });
+    
+    // Close menu when clicking outside
+    mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu) {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
+    // Close menu when clicking any nav link
+    const mobileNavLinks = mobileMenu.querySelectorAll('nav a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+    });
+    </script>
 </body>
 </html>
