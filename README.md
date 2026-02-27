@@ -6,6 +6,16 @@ A full-stack e-commerce platform for a balloon and gift delivery business based 
 
 ---
 
+## 📸 Screenshots
+
+| | |
+|---|---|
+| ![Homepage](screenshots/homepage.png) | ![Products](screenshots/products.png) |
+| ![Checkout](screenshots/checkout.png) | ![Order Confirmation](screenshots/order-confirmation.png) |
+| ![Admin Dashboard](screenshots/admin-dashboard.png) | ![Admin Orders](screenshots/admin-orders.png) |
+
+---
+
 ## ✨ Features
 
 ### Customer Side
