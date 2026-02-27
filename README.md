@@ -2,7 +2,6 @@
 
 A full-stack e-commerce platform for a balloon and gift delivery business based in Sri Lanka. Built as a portfolio project to demonstrate end-to-end web application development — from a responsive customer-facing storefront to a complete order management system for admins.
 
-🔗 **[Live Demo](https://YOUR_USERNAME.github.io/balloons-galore)**
 
 ---
 
@@ -11,7 +10,6 @@ A full-stack e-commerce platform for a balloon and gift delivery business based 
 ### Customer Side
 - Browse products by category with detailed product pages
 - Add to cart with custom variations (float type, inflation, wording, colors, etc.)
-- Checkout with location-based delivery fee calculation
 - Bank transfer payment with receipt upload
 - Order confirmation page with full order summary
 - Order tracking by order number
@@ -86,13 +84,10 @@ balloons-galore/
 
 ## 🚀 Deployment
 
-- **Frontend** — GitHub Pages
-- **Backend** — Render.com
-- **Database** — Railway (MySQL)
 
 ---
 
 ## 👤 Author
 
-**Your Name**
-[LinkedIn](https://linkedin.com/in/YOUR_PROFILE) · [GitHub](https://github.com/YOUR_USERNAME)
+**Abdul Hakeem**
+
