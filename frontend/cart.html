@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Product Detail - Balloons Galore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff1b8d",
+                        "secondary": "#ff6b9d",
+                        "accent": "#c86dd7",
+                        "background-light": "#fff5f9",
+                        "background-dark": "#1a0d14",
+                        "text-light": "#1c0d14",
+                        "text-dark": "#fff5f9",
+                        "subtext-light": "#9c4973",
+                        "subtext-dark": "#d4a7c0",
+                        "surface-light": "#ffe8f3",
+                        "surface-dark": "#2d1824",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "1.25rem",
+                        "xl": "1.75rem",
+                        "2xl": "2rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+
+
+    <style>
+        .color-option {
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.ring-4 {
+            transform: scale(1.15);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .animate-slideIn {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        /* Dropdown menu styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown>button {
+            padding: 0.5rem 0;
+        }
+
+        /* Dropdown panel */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -1rem;
+            margin-top: 0;
+            padding-top: 0.5rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.25s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Keep it open when hovering over button or dropdown */
+        .dropdown:hover .dropdown-menu,
+        .dropdown-menu:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Inner dropdown styling */
+        .dropdown-menu-inner {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 27, 141, 0.1);
+            padding: 0.5rem 0;
+            overflow: hidden;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .dark .dropdown-menu-inner {
+            background: rgba(26, 13, 20, 0.9);
+        }
+
+        /* FIX: ensure parent header or containers don't hide dropdowns */
+        header,
+        .layout-container {
+            overflow: visible !important;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes gradient-shift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .gradient-animated {
+            background-size: 200% 200%;
+            animation: gradient-shift 8s ease infinite;
+        }
+
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .dark .glass-effect {
+            background: rgba(26, 13, 20, 0.85);
+        }
+
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .shine-effect:hover::before {
+            left: 100%;
+        }
+
+        .option-box {
+            transition: all 0.3s;
+        }
+
+        .option-box.selected {
+            border-color: #ff1b8d !important;
+            background: linear-gradient(135deg, rgba(255, 27, 141, 0.1) 0%, rgba(200, 109, 215, 0.1) 100%) !important;
+        }
+    </style>
+
+
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+
+            <!-- Enhanced Header -->
+            <header class="sticky top-0 z-50 glass-effect border-b border-primary/10">
+                <div class="max-w-7xl mx-auto pr-3 sm:pr-6 lg:pr-8">
+                    <div class="flex items-center justify-between py-2 sm:py-4">
+                        <!-- Left Section - Logo (Desktop) / Hamburger (Mobile) -->
+                        <div class="flex items-center flex-1">
+                            <!-- Mobile Hamburger Menu Button -->
+                            <button id="mobileMenuBtn"
+                                class="lg:hidden flex cursor-pointer items-center justify-center rounded-xl h-9 w-9 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform ml-3">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                </svg>
+                            </button>
+
+                            <!-- Logo - Desktop Left Side -->
+                            <div class="hidden lg:flex items-center">
+                                <img src="images/logo new.jpg" alt="Balloons Galore" class="h-20"
+                                    style="width: auto; max-width: none;">
+
+                            </div>
+
+                            <!-- Desktop Navigation -->
+                            <nav class="hidden lg:flex items-center gap-6 ml-8">
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105"
+                                    href="index.html">Home</a>
+
+                                <!-- Services Dropdown -->
+                                <div class="dropdown">
+                                    <button
+                                        class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105 flex items-center gap-1 py-2">
+                                        Services
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M3 4.5L6 7.5L9 4.5" />
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-menu-inner">
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="#">Balloon Décor</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="#">Event Styling</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Products Dropdown -->
+                                <div class="dropdown">
+                                    <button
+                                        class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105 flex items-center gap-1 py-2">
+                                        Products
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M3 4.5L6 7.5L9 4.5" />
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-menu-inner">
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="products.html?category=helium">Helium Balloons</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="products.html?category=accessories">Balloons & Accessories</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="products.html?category=flowers">Flowers</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="products.html?category=cakes">Cakes & Desserts</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="products.html?category=chocolates">Chocolates & Gifts</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105"
+                                    href="#">Occasions</a>
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105"
+                                    href="#">Gallery</a>
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105"
+                                    href="#">Contact</a>
+                            </nav>
+                        </div>
+
+                        <!-- Center - Logo (Mobile Only) -->
+                        <div class="flex lg:hidden items-center justify-center">
+                            <img src="images/logo new.jpg" alt="Balloons Galore" class="h-10 sm:h-14 md:h-20 w-auto">
+                        </div>
+
+                        <!-- Right Section - Search & Icons -->
+                        <div class="flex items-center gap-2 sm:gap-3 justify-end flex-1">
+                            <label class="hidden md:flex flex-col min-w-48 max-w-64 relative w-full">
+                                <input type="text" placeholder="Search products..."
+                                    class="w-full rounded-full bg-white/80 dark:bg-surface-dark/80 shadow-md focus:outline-none focus:ring-2 focus:ring-primary pl-10 pr-4 py-2 text-text-light dark:text-text-dark placeholder:text-subtext-light placeholder:dark:text-subtext-dark text-sm font-medium" />
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-subtext-light dark:text-subtext-dark text-lg">search</span>
+                            </label>
+                            <div class="flex gap-2">
+                                <button
+                                    class="flex cursor-pointer items-center justify-center rounded-2xl h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform shadow-sm">
+                                    <span class="material-symbols-outlined" style="font-size: 18px;">person</span>
+                                </button>
+                                <button
+                                    class="flex cursor-pointer items-center justify-center rounded-2xl h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-primary to-accent text-white hover:scale-110 transition-transform shadow-lg shadow-primary/30">
+                                    <span class="material-symbols-outlined"
+                                        style="font-size: 18px;">shopping_cart</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Mobile Menu Overlay -->
+            <div id="mobileMenu" class="lg:hidden hidden fixed inset-0 z-[9999]">
+                <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+                <div class="relative glass-effect w-80 h-full shadow-2xl animate-slideIn overflow-y-auto">
+                    <div class="flex items-center justify-between p-4 border-b border-primary/10">
+                        <img src="images/logo new.jpg" alt="Balloons Galore" class="h-12 w-auto">
+                        <button id="closeMobileMenu"
+                            class="flex cursor-pointer items-center justify-center rounded-xl h-9 w-9 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="flex flex-col p-4 gap-1">
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="index.html">
+                            <span>🏠</span> Home
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="#">
+                            <span>🎈</span> Balloon Décor
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="#">
+                            <span>🎨</span> Event Styling
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="products.html?category=helium">
+                            <span>🎈</span> Helium Balloons
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="products.html?category=flowers">
+                            <span>🌸</span> Flowers
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="products.html?category=cakes">
+                            <span>🎂</span> Cakes & Desserts
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="products.html?category=chocolates">
+                            <span>🍫</span> Chocolates & Gifts
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="products.html?category=accessories">
+                            <span>🛍️</span> Balloons & Accessories
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="#">
+                            <span>🎉</span> Occasions
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="#">
+                            <span>📸</span> Gallery
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="#">
+                            <span>📞</span> Contact & Bookings
+                        </a>
+
+                        <!-- Mobile Search -->
+                        <div class="mt-4 pt-4 border-t border-primary/10">
+                            <label class="flex flex-col relative w-full">
+                                <input type="text" placeholder="Search products..."
+                                    class="w-full rounded-full bg-surface-light dark:bg-surface-dark shadow-md focus:outline-none focus:ring-2 focus:ring-primary pl-10 pr-4 py-3 text-text-light dark:text-text-dark placeholder:text-subtext-light placeholder:dark:text-subtext-dark text-sm font-medium" />
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-subtext-light dark:text-subtext-dark text-lg">search</span>
+                            </label>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+
+
+
+            <!-- Main Content -->
+            <main class="flex-1">
+                <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 md:py-8">
+
+                    <!-- Page Header -->
+                    <div class="text-center mb-6 sm:mb-8 animate-fadeIn">
+                        <h1
+                            class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight tracking-tight mb-2 sm:mb-3 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                            Shopping Cart 🛒
+                        </h1>
+                        <p
+                            class="text-subtext-light dark:text-subtext-dark text-sm sm:text-base md:text-lg font-medium">
+                            <span id="cartItemCount">3</span> items in your cart
+                        </p>
+                    </div>
+
+                    <!-- Cart Content -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+
+                        <!-- Left: Cart Items -->
+                        <div class="lg:col-span-2 space-y-4">
+
+                            <!-- Cart Items Container -->
+                            <div id="cartItemsContainer" class="space-y-4">
+                                <!-- Items will be injected here by JS -->
+                            </div>
+
+                            <!-- Empty Cart Message (Hidden by default) -->
+                            <div id="emptyCartMessage"
+                                class="hidden bg-white dark:bg-surface-dark rounded-2xl p-8 sm:p-12 text-center shadow-lg">
+                                <div class="text-6xl mb-4">🛒</div>
+                                <h3 class="text-2xl font-bold mb-2">Your cart is empty</h3>
+                                <p class="text-subtext-light dark:text-subtext-dark mb-6">Add some products to get
+                                    started!</p>
+                                <a href="products.html"
+                                    class="inline-block bg-gradient-to-r from-primary to-accent text-white font-bold px-8 py-3 rounded-full hover:scale-105 transition-all shadow-lg">
+                                    Continue Shopping
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Right: Order Summary -->
+                        <div class="lg:col-span-1">
+                            <div class="bg-white dark:bg-surface-dark rounded-2xl p-6 shadow-lg sticky top-24 animate-fadeIn"
+                                style="animation-delay: 0.2s;">
+                                <h2 class="text-xl sm:text-2xl font-black mb-6 text-text-light dark:text-text-dark">
+                                    Order Summary</h2>
+
+                                <!-- Summary Items -->
+                                <div class="space-y-4 mb-6">
+                                    <div class="flex justify-between text-sm sm:text-base">
+                                        <span class="text-subtext-light dark:text-subtext-dark">Subtotal (<span
+                                                id="summaryItemCount">0</span> items)</span>
+                                        <span class="font-bold" id="subtotalDisplay">Rs. 0</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm sm:text-base">
+                                        <span class="text-subtext-light dark:text-subtext-dark">Delivery Fee</span>
+                                        <span class="font-bold text-green-600">Free</span>
+                                    </div>
+                                    <div class="border-t-2 border-surface-light dark:border-background-dark pt-4">
+                                        <div class="flex justify-between text-lg sm:text-xl">
+                                            <span class="font-bold">Total</span>
+                                            <span class="font-black text-primary text-2xl" id="totalDisplay">Rs.
+                                                0</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Delivery Info -->
+                                <div class="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 mb-6">
+                                    <div class="flex items-start gap-3">
+                                        <span class="material-symbols-outlined text-primary mt-1">local_shipping</span>
+                                        <div>
+                                            <p class="font-bold text-sm mb-1">Free Delivery</p>
+                                            <p class="text-xs text-subtext-light dark:text-subtext-dark">Within Colombo
+                                                & suburbs</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Checkout Button -->
+                                <a href="checkout.html"
+                                    class="block w-full bg-gradient-to-r from-primary to-accent text-white font-bold text-base sm:text-lg py-3 sm:py-4 rounded-xl hover:scale-105 transition-all shadow-lg text-center mb-3">
+                                    Proceed to Checkout
+                                </a>
+
+                                <!-- Continue Shopping -->
+                                <a href="products.html"
+                                    class="block w-full bg-surface-light dark:bg-background-dark text-text-light dark:text-text-dark font-semibold text-sm sm:text-base py-3 rounded-xl hover:bg-primary hover:text-white transition-all text-center">
+                                    Continue Shopping
+                                </a>
+
+                                <!-- Trust Badges -->
+                                <div class="mt-6 pt-6 border-t-2 border-surface-light dark:border-background-dark">
+                                    <div class="grid grid-cols-2 gap-3 text-center">
+                                        <div class="text-xs">
+                                            <span
+                                                class="material-symbols-outlined text-green-600 text-2xl">verified</span>
+                                            <p class="font-semibold mt-1">Secure Payment</p>
+                                        </div>
+                                        <div class="text-xs">
+                                            <span
+                                                class="material-symbols-outlined text-blue-600 text-2xl">support_agent</span>
+                                            <p class="font-semibold mt-1">24/7 Support</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="bg-gradient-to-br from-primary via-secondary to-accent text-white mt-12 sm:mt-16">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+                        <div>
+                            <h4 class="text-base sm:text-lg font-bold mb-3 sm:mb-4">About Us</h4>
+                            <p class="text-white/80 text-xs sm:text-sm leading-relaxed">Making celebrations memorable
+                                with beautiful balloon decorations since 2020.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-base sm:text-lg font-bold mb-3 sm:mb-4">Quick Links</h4>
+                            <ul class="space-y-2 text-xs sm:text-sm">
+                                <li><a href="products.html"
+                                        class="text-white/80 hover:text-white transition-colors">Shop</a></li>
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Categories</a>
+                                </li>
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">About Us</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-base sm:text-lg font-bold mb-3 sm:mb-4">Customer Service</h4>
+                            <ul class="space-y-2 text-xs sm:text-sm">
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Contact</a>
+                                </li>
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Shipping</a>
+                                </li>
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Returns</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-base sm:text-lg font-bold mb-3 sm:mb-4">Get in Touch</h4>
+                            <p class="text-white/80 text-xs sm:text-sm mb-1">info@balloongalore.com</p>
+                            <p class="text-white/80 text-xs sm:text-sm mb-1">+94 77 123 4567</p>
+                            <p class="text-white/80 text-xs sm:text-sm">Colombo 13, Sri Lanka</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-white/20 mt-6 sm:mt-8 pt-4 sm:pt-6 text-center">
+                        <p class="text-white/80 text-xs sm:text-sm">© 2025 Balloons Galore. All rights reserved. Made
+                            with 💖</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                mobileMenu.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // ==================== DYNAMIC CART LOGIC ====================
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        const emptyCartMessage = document.getElementById('emptyCartMessage');
+        const cartItemCount = document.getElementById('cartItemCount');
+        const summaryItemCount = document.getElementById('summaryItemCount');
+        const subtotalDisplay = document.getElementById('subtotalDisplay');
+        const totalDisplay = document.getElementById('totalDisplay');
+        const cartBadge = document.getElementById('cartBadge');
+
+        function formatCurrency(amount) {
+            return `Rs. ${amount.toLocaleString()}`;
+        }
+
+        function renderCart() {
+            cartItemsContainer.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartItemsContainer.classList.add('hidden');
+                emptyCartMessage.classList.remove('hidden');
+                updateTotals();
+                return;
+            }
+
+            cartItemsContainer.classList.remove('hidden');
+            emptyCartMessage.classList.add('hidden');
+
+            cart.forEach((item, index) => {
+                const itemTotal = (item.basePrice + (item.foilWeight ? 250 : 0)) * item.quantity;
+
+                const html = `
+                    <div class="cart-item bg-white dark:bg-surface-dark rounded-2xl p-4 sm:p-6 shadow-lg border-2 border-transparent hover:border-primary/20 transition-all animate-fadeIn" data-index="${index}">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <!-- Product Image -->
+                            <div class="w-full sm:w-32 h-32 bg-cover bg-center rounded-xl" style='background-image: url("${item.image}");'></div>
+                            
+                            <!-- Product Info -->
+                            <div class="flex-1 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="text-base sm:text-lg font-bold text-text-light dark:text-text-dark mb-2">
+                                        ${item.name}
+                                    </h3>
+                                    <div class="space-y-1 text-xs sm:text-sm text-subtext-light dark:text-subtext-dark">
+                                        ${item.float ? `<p>Float Time: <span class="font-semibold">${item.float === 'hifloat' ? 'Hi-Float (12+ hrs)' : 'Standard (5-6 hrs)'}</span></p>` : ''}
+                                        ${item.inflation ? `<p>Inflation: <span class="font-semibold capitalize">${item.inflation}</span></p>` : ''}
+                                        ${item.foilWeight ? `<p>Add-on: <span class="font-semibold">Foil Weight (+Rs. 250)</span></p>` : ''}
+                                        ${item.nameWording ? `<p>Name: <span class="font-semibold">${item.nameWording}</span></p>` : ''}
+                                        ${item.customWording ? `<p>Wording: <span class="font-semibold">${item.customWording}</span></p>` : ''}
+                                        ${item.colors ? `<p>Colors: <span class="font-semibold">${item.colors.join(', ')}</span></p>` : ''}
+                                        ${item.number ? `<p>Number: <span class="font-semibold">${item.number}</span></p>` : ''}
+                                    </div>
+                                </div>
+                                
+                                <!-- Quantity & Price -->
+                                <div class="flex items-center justify-between mt-4">
+                                    <div class="flex items-center gap-2">
+                                        <button class="qty-decrease bg-surface-light dark:bg-background-dark hover:bg-primary hover:text-white w-8 h-8 rounded-lg font-bold transition-all" data-action="decrease">−</button>
+                                        <input type="number" value="${item.quantity}" min="1" class="w-12 h-8 text-center rounded-lg border-2 border-surface-light dark:border-surface-dark bg-white dark:bg-background-dark font-bold text-sm focus:outline-none focus:ring-2 focus:ring-primary" data-action="manual">
+                                        <button class="qty-increase bg-surface-light dark:bg-background-dark hover:bg-primary hover:text-white w-8 h-8 rounded-lg font-bold transition-all" data-action="increase">+</button>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-lg sm:text-xl font-black text-primary">${formatCurrency((item.basePrice + (item.foilWeight ? 250 : 0)) * item.quantity)}</p>
+                                        <p class="text-xs text-subtext-light dark:text-subtext-dark">${formatCurrency(item.basePrice + (item.foilWeight ? 250 : 0))} each</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Remove Button -->
+                            <button class="remove-item absolute top-4 right-4 sm:relative sm:top-0 sm:right-0 text-red-500 hover:text-red-600 transition-colors p-2" data-action="remove">
+                                <span class="material-symbols-outlined pointer-events-none">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.insertAdjacentHTML('beforeend', html);
+            });
+
+            updateTotals();
+        }
+
+        function updateTotals() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalCost = cart.reduce((sum, item) => {
+                const itemPrice = item.basePrice + (item.foilWeight ? 250 : 0);
+                return sum + (itemPrice * item.quantity);
+            }, 0);
+
+            cartItemCount.textContent = totalItems;
+            summaryItemCount.textContent = totalItems;
+            if (cartBadge) cartBadge.textContent = totalItems;
+
+            subtotalDisplay.textContent = formatCurrency(totalCost);
+            totalDisplay.textContent = formatCurrency(totalCost);
+        }
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+            window.dispatchEvent(new Event('cartUpdated'));
+        }
+
+        // Event Delegation
+        cartItemsContainer.addEventListener('click', (e) => {
+            const target = e.target;
+            const btn = target.closest('button');
+
+            if (!btn) return;
+
+            const cartItem = btn.closest('.cart-item');
+            if (!cartItem) return;
+
+            const index = parseInt(cartItem.dataset.index);
+            const action = btn.dataset.action;
+
+            if (action === 'increase') {
+                cart[index].quantity++;
+                saveCart();
+            } else if (action === 'decrease') {
+                if (cart[index].quantity > 1) {
+                    cart[index].quantity--;
+                    saveCart();
+                }
+            } else if (action === 'remove') {
+                if (confirm('Remove this item from cart?')) {
+                    cart.splice(index, 1);
+                    saveCart();
+                }
+            }
+        });
+
+        cartItemsContainer.addEventListener('change', (e) => {
+            const target = e.target;
+            if (target.tagName === 'INPUT' && target.type === 'number') {
+                const cartItem = target.closest('.cart-item');
+                const index = parseInt(cartItem.dataset.index);
+                const newQty = parseInt(target.value);
+
+                if (newQty > 0) {
+                    cart[index].quantity = newQty;
+                    saveCart();
+                } else {
+                    renderCart(); // Reset to valid
+                }
+            }
+        });
+
+        // Initial Render
+        window.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+
+    
+</body>
+
+</html>

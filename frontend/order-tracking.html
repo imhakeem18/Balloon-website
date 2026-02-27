@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>PartyBalloons - Make Every Moment Pop!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff1b8d",
+                        "secondary": "#ff6b9d",
+                        "accent": "#c86dd7",
+                        "background-light": "#fff5f9",
+                        "background-dark": "#1a0d14",
+                        "text-light": "#1c0d14",
+                        "text-dark": "#fff5f9",
+                        "subtext-light": "#9c4973",
+                        "subtext-dark": "#d4a7c0",
+                        "surface-light": "#ffe8f3",
+                        "surface-dark": "#2d1824",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "1.25rem",
+                        "xl": "1.75rem",
+                        "2xl": "2rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+
+     
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .animate-slideIn {
+            animation: slideIn 0.3s ease-out;
+        }
+/* Dropdown menu styles */
+.dropdown {
+    position: relative;
+}
+
+.dropdown > button {
+    padding: 0.5rem 0;
+}
+
+/* Dropdown panel */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: -1rem;
+    margin-top: 0;
+     padding-top: 0.5rem;  /* Keep spacing inside */
+    padding-left: 1rem;
+    padding-right: 1rem;
+    min-width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.25s ease;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Keep it open when hovering over button or dropdown */
+.dropdown:hover .dropdown-menu,
+.dropdown-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Inner dropdown styling */
+.dropdown-menu-inner {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(255, 27, 141, 0.1);
+    padding: 0.5rem 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 1001;
+}
+
+.dark .dropdown-menu-inner {
+    background: rgba(26, 13, 20, 0.9);
+}
+
+/* FIX: ensure parent header or containers don't hide dropdowns */
+header,
+.layout-container {
+    overflow: visible !important;
+}
+       
+
+        /* Custom animations and effects */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .gradient-animated {
+            background-size: 200% 200%;
+            animation: gradient-shift 8s ease infinite;
+        }
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(26, 13, 20, 0.85);
+        }
+        
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shine-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+        
+        .shine-effect:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+  
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Enhanced Header -->
+            <header class="sticky top-0 z-50 glass-effect border-b border-primary/10">
+                <div class="max-w-7xl mx-auto pr-3 sm:pr-6 lg:pr-8">
+                    <div class="flex items-center justify-between py-2 sm:py-4">
+                        <!-- Left Section - Logo (Desktop) / Hamburger (Mobile) -->
+                        <div class="flex items-center flex-1">
+                            <!-- Mobile Hamburger Menu Button -->
+                            <button id="mobileMenuBtn" class="lg:hidden flex cursor-pointer items-center justify-center rounded-xl h-9 w-9 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform ml-3">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                </svg>
+                            </button>
+                            
+                            <!-- Logo - Desktop Left Side -->
+                            <div class="hidden lg:flex items-center">
+                               <a href="index.html"><img src="images/logo new.jpg" alt="Balloons Galore" class="h-20" style="width: auto; max-width: none;">
+                            </div></a> 
+                            
+                            <!-- Desktop Navigation -->
+                            <nav class="hidden lg:flex items-center gap-6 ml-8">
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="index.html">Home</a>
+                                
+                                <!-- Services Dropdown -->
+                                <div class="dropdown">
+                                    <button class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105 flex items-center gap-1 py-2">
+                                      <a href="services.html">Services</a>  
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M3 4.5L6 7.5L9 4.5"/>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-menu-inner">
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="#">Balloon Décor</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="#">Event Styling</a>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Products Dropdown -->
+                                <div class="dropdown">
+                                    <button class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105 flex items-center gap-1 py-2">
+                                       <a href="products.html">Products</a> 
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M3 4.5L6 7.5L9 4.5"/>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-menu-inner">
+                                             <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="products.html?category=helium">Helium Balloons</a>
+                                             <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="products.html?category=accessories">Balloons & Accessories</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="products.html?category=flowers">Flowers</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="products.html?category=cakes">Cakes & Desserts</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all" href="products.html?category=chocolates">Chocolates & Gifts</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="#">Occasions</a>
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="#">Gallery</a>
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="#">Contact</a>
+                            </nav>
+                        </div>
+                        
+                        <!-- Center - Logo (Mobile Only) -->
+                        <div class="flex lg:hidden items-center justify-center">
+                            <img src="images/logo new.jpg" alt="Balloons Galore" class="h-10 sm:h-14 md:h-20 w-auto">
+                        </div>
+                        
+                        <!-- Right Section - Search & Icons -->
+                        <div class="flex items-center gap-2 sm:gap-3 justify-end flex-1">
+                            <label class="hidden md:flex flex-col min-w-48 max-w-64 relative w-full">
+                                <input 
+                                    type="text"
+                                    placeholder="Search products..."
+                                    class="w-full rounded-full bg-white/80 dark:bg-surface-dark/80 shadow-md focus:outline-none focus:ring-2 focus:ring-primary pl-10 pr-4 py-2 text-text-light dark:text-text-dark placeholder:text-subtext-light placeholder:dark:text-subtext-dark text-sm font-medium"
+                                    value=""
+                                />
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-subtext-light dark:text-subtext-dark text-lg">
+                                    search
+                                </span>
+                            </label>
+
+                            <div class="flex gap-2">
+                                <button class="flex cursor-pointer items-center justify-center rounded-2xl h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform shadow-sm">
+                                    <span class="material-symbols-outlined" style="font-size: 18px;">person</span>
+                                </button>
+                                <button class="flex cursor-pointer items-center justify-center rounded-2xl h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-primary to-accent text-white hover:scale-110 transition-transform shadow-lg shadow-primary/30">
+                                    <span class="material-symbols-outlined" style="font-size: 18px;">shopping_cart</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Mobile Menu Overlay - Moved outside header -->
+            <div id="mobileMenu" class="lg:hidden hidden fixed inset-0 z-[9999]">
+                <!-- Dark backdrop -->
+                <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+                
+                <!-- Menu panel -->
+                <div class="relative glass-effect w-80 h-full shadow-2xl animate-slideIn overflow-y-auto">
+                    <div class="flex items-center justify-between p-4 border-b border-primary/10">
+                        <img src="images/logo new.jpg" alt="Balloons Galore" class="h-12 w-auto">
+                        <button id="closeMobileMenu" class="flex cursor-pointer items-center justify-center rounded-xl h-9 w-9 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="flex flex-col p-4 gap-1">
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🏠</span> Home
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="index3.html">
+                            <span>🏠</span> index 3
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🎈</span> Balloon Décor
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🎨</span> Event Styling
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🎈</span> Helium Balloons
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🌸</span> Flowers
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🎂</span> Cakes & Desserts
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🍫</span> Chocolates & Gifts
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🛍️</span> Shop Balloons & Accessories
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>🎉</span> Occasions
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>📸</span> Gallery
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                            <span>📞</span> Contact & Bookings
+                        </a>
+                        
+                        <!-- Mobile Search -->
+                        <div class="mt-4 pt-4 border-t border-primary/10">
+                            <label class="flex flex-col relative w-full">
+                                <input 
+                                    type="text"
+                                    placeholder="Search products..."
+                                    class="w-full rounded-full bg-surface-light dark:bg-surface-dark shadow-md focus:outline-none focus:ring-2 focus:ring-primary pl-10 pr-4 py-3 text-text-light dark:text-text-dark placeholder:text-subtext-light placeholder:dark:text-subtext-dark text-sm font-medium"
+                                />
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-subtext-light dark:text-subtext-dark text-lg">
+                                    search
+                                </span>
+                            </label>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            
+            <!-- Main Content -->
+            <main class="flex-1">
+                <div class="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8 md:py-12">
+                    
+                    <!-- Page Header -->
+                    <div class="text-center mb-8 animate-fadeIn">
+                        <div class="text-6xl mb-4">📦</div>
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight tracking-tight mb-3 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                            Track Your Order
+                        </h1>
+                        <p class="text-subtext-light dark:text-subtext-dark text-sm sm:text-base md:text-lg font-medium">
+                            Enter your order number to check the status of your delivery
+                        </p>
+                    </div>
+
+                    <!-- Search Form -->
+                    <div class="bg-white dark:bg-surface-dark rounded-2xl p-6 sm:p-8 shadow-lg mb-8 animate-fadeIn">
+                        <form id="trackingForm" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Order Number *</label>
+                                <div class="flex gap-3">
+                                    <input 
+                                        type="text" 
+                                        id="orderNumberInput" 
+                                        placeholder="e.g., ORD1730805432123"
+                                        class="flex-1 px-4 py-3 rounded-xl border-2 border-surface-light dark:border-surface-dark bg-white dark:bg-background-dark focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm sm:text-base"
+                                        required
+                                    >
+                                    <button 
+                                        type="submit"
+                                        class="bg-gradient-to-r from-primary to-accent text-white font-bold px-6 sm:px-8 py-3 rounded-xl hover:scale-105 transition-all shadow-lg flex items-center gap-2"
+                                    >
+                                        <span class="material-symbols-outlined">search</span>
+                                        <span class="hidden sm:inline">Track</span>
+                                    </button>
+                                </div>
+                                <p class="text-xs text-subtext-light dark:text-subtext-dark mt-2">
+                                    You can find your order number in the confirmation email we sent you
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Loading State (Hidden by default) -->
+                    <div id="loadingState" class="hidden bg-white dark:bg-surface-dark rounded-2xl p-12 text-center shadow-lg">
+                        <div class="spinner mx-auto mb-4"></div>
+                        <p class="font-bold text-lg">Searching for your order...</p>
+                        <p class="text-sm text-subtext-light dark:text-subtext-dark mt-2">Please wait a moment</p>
+                    </div>
+
+                    <!-- Error State (Hidden by default) -->
+                    <div id="errorState" class="hidden bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-2xl p-8 text-center">
+                        <span class="material-symbols-outlined text-red-500 text-5xl mb-3">error</span>
+                        <h3 class="text-xl font-bold text-red-600 dark:text-red-400 mb-2">Order Not Found</h3>
+                        <p class="text-subtext-light dark:text-subtext-dark mb-4">
+                            We couldn't find an order with that number. Please check and try again.
+                        </p>
+                        <button onclick="document.getElementById('errorState').classList.add('hidden')" class="text-primary font-semibold hover:underline">
+                            Try Again
+                        </button>
+                    </div>
+
+                    <!-- Order Details (Hidden by default) -->
+                    <div id="orderDetails" class="hidden space-y-6">
+                        
+                        <!-- Order Header -->
+                        <div class="bg-white dark:bg-surface-dark rounded-2xl p-6 shadow-lg animate-fadeIn">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                                <div>
+                                    <h2 class="text-2xl font-black mb-1">Order <span id="displayOrderNumber" class="text-primary">ORD123456</span></h2>
+                                    <p class="text-sm text-subtext-light dark:text-subtext-dark">Placed on <span id="displayOrderDate">Nov 5, 2025</span></p>
+                                </div>
+                                <div>
+                                    <div id="orderStatusBadge" class="status-pending text-white font-bold px-6 py-2 rounded-full text-sm">
+                                        Pending
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Status Timeline -->
+                        <div class="bg-white dark:bg-surface-dark rounded-2xl p-6 shadow-lg animate-fadeIn">
+                            <h3 class="text-xl font-black mb-6 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">timeline</span>
+                                Tracking Status
+                            </h3>
+                            <div class="relative">
+                                <!-- Timeline Line -->
+                                <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-surface-light dark:bg-background-dark"></div>
+                                
+                                <!-- Timeline Steps -->
+                                <div id="timelineSteps" class="space-y-6 relative">
+                                    <!-- Steps will be loaded dynamically -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Items -->
+                        <div class="bg-white dark:bg-surface-dark rounded-2xl p-6 shadow-lg animate-fadeIn">
+                            <h3 class="text-xl font-black mb-6 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">shopping_bag</span>
+                                Order Items
+                            </h3>
+                            <div id="displayOrderItems" class="space-y-4">
+                                <!-- Items will be loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Delivery & Contact Info -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Delivery Info -->
+                            <div class="bg-white dark:bg-surface-dark rounded-2xl p-6 shadow-lg animate-fadeIn">
+                                <h3 class="text-lg font-black mb-4 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">local_shipping</span>
+                                    Delivery To
+                                </h3>
+                                <div class="space-y-2 text-sm">
+                                    <p id="displayCustomerName" class="font-bold">John Doe</p>
+                                    <p id="displayAddress" class="text-subtext-light dark:text-subtext-dark">123 Main Street, Colombo</p>
+                                    <p id="displayPhone" class="text-subtext-light dark:text-subtext-dark">+94 77 123 4567</p>
+                                </div>
+                            </div>
+
+                            <!-- Payment Info -->
+                            <div class="bg-white dark:bg-surface-dark rounded-2xl p-6 shadow-lg animate-fadeIn">
+                                <h3 class="text-lg font-black mb-4 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">payment</span>
+                                    Payment
+                                </h3>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-subtext-light dark:text-subtext-dark">Method</span>
+                                        <span id="displayPaymentMethod" class="font-bold">Card Payment</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-subtext-light dark:text-subtext-dark">Status</span>
+                                        <span id="displayPaymentStatus" class="font-bold text-green-600">Paid</span>
+                                    </div>
+                                    <div class="flex justify-between border-t-2 border-surface-light dark:border-background-dark pt-2 mt-2">
+                                        <span class="font-bold">Total</span>
+                                        <span id="displayTotal" class="font-black text-primary">Rs. 4,599</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Need Help -->
+                        <div class="bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-6 text-center animate-fadeIn">
+                            <p class="font-bold mb-2">Need Help with Your Order?</p>
+                            <p class="text-sm text-subtext-light dark:text-subtext-dark mb-4">
+                                Contact our customer service team
+                            </p>
+                            <div class="flex flex-wrap justify-center gap-4 text-sm">
+                                <a href="tel:+94771234567" class="font-semibold text-primary hover:underline">📞 +94 77 123 4567</a>
+                                <a href="mailto:info@balloongalore.com" class="font-semibold text-primary hover:underline">✉️ info@balloongalore.com</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="bg-gradient-to-br from-primary via-secondary to-accent text-white mt-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div class="text-center">
+                        <p class="text-white/80 text-xs sm:text-sm">© 2025 Balloons Galore. All rights reserved. Made with 💖</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                mobileMenu.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Check if there's an order parameter in URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderNumber = urlParams.get('order');
+            
+            if (orderNumber) {
+                document.getElementById('orderNumberInput').value = orderNumber;
+                trackOrder(orderNumber);
+            }
+        });
+
+        // Form submission
+        document.getElementById('trackingForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const orderNumber = document.getElementById('orderNumberInput').value.trim();
+            if (orderNumber) {
+                trackOrder(orderNumber);
+            }
+        });
+
+        // Track Order Function
+        async function trackOrder(orderNumber) {
+            // Hide all states
+            document.getElementById('orderDetails').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('loadingState').classList.remove('hidden');
+
+            try {
+                // Fetch order from backend API
+                const response = await fetch(`http://localhost:5000/api/orders/track/${orderNumber}`);
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Order not found');
+                }
+
+                // Display order details
+                displayOrderDetails(result.data);
+
+            } catch (error) {
+                console.error('Track order error:', error);
+                showError();
+            }
+        }
+
+        // Display Order Details
+        function displayOrderDetails(order) {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('orderDetails').classList.remove('hidden');
+
+            // Display order header
+            document.getElementById('displayOrderNumber').textContent = order.order_number;
+            
+            const orderDate = new Date(order.created_at);
+            document.getElementById('displayOrderDate').textContent = orderDate.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+
+            // Display status badge
+            const statusBadge = document.getElementById('orderStatusBadge');
+            const orderStatus = order.order_status || 'pending';
+            const statusText = orderStatus.charAt(0).toUpperCase() + orderStatus.slice(1);
+            statusBadge.textContent = statusText;
+            statusBadge.className = `status-${orderStatus} text-white font-bold px-6 py-2 rounded-full text-sm`;
+
+            // Display timeline
+            displayTimeline(order.order_status, order.payment_status);
+
+            // Display items
+            const itemsList = document.getElementById('displayOrderItems');
+            itemsList.innerHTML = order.items.map(item => {
+                // Parse variations if it's a JSON string
+                let variationsText = '';
+                if (item.variations) {
+                    const vars = typeof item.variations === 'string' ? JSON.parse(item.variations) : item.variations;
+                    variationsText = Object.values(vars).filter(v => v).join(', ');
+                }
+                
+                return `
+                    <div class="flex justify-between items-start pb-4 border-b-2 border-surface-light dark:border-background-dark last:border-0 last:pb-0">
+                        <div class="flex-1">
+                            <p class="font-bold">${item.product_name}</p>
+                            ${variationsText ? `<p class="text-sm text-subtext-light dark:text-subtext-dark">${variationsText}</p>` : ''}
+                            <p class="text-sm text-subtext-light dark:text-subtext-dark">Qty: ${item.quantity}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-primary">Rs. ${parseFloat(item.subtotal).toLocaleString()}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Display customer info
+            document.getElementById('displayCustomerName').textContent = order.customer_name;
+            document.getElementById('displayAddress').textContent = `${order.delivery_address}, ${order.delivery_city}`;
+            document.getElementById('displayPhone').textContent = order.customer_phone;
+
+            // Display payment info
+            const paymentMethod = order.payment_method === 'card' ? 'Card Payment' : 'Bank Transfer';
+            document.getElementById('displayPaymentMethod').textContent = paymentMethod;
+            
+            const paymentStatus = order.payment_status === 'paid' ? 'Paid' : order.payment_status === 'pending' ? 'Pending' : 'Failed';
+            const paymentColor = order.payment_status === 'paid' ? 'text-green-600' : order.payment_status === 'pending' ? 'text-orange-600' : 'text-red-600';
+            document.getElementById('displayPaymentStatus').textContent = paymentStatus;
+            document.getElementById('displayPaymentStatus').className = `font-bold ${paymentColor}`;
+
+            document.getElementById('displayTotal').textContent = `Rs. ${parseFloat(order.total).toLocaleString()}`;
+        }
+
+        // Display Mock Order (for demo)
+        function displayMockOrder(orderNumber) {
+            const mockOrder = {
+                orderNumber: orderNumber,
+                orderDate: new Date().toISOString(),
+                status: 'pending',
+                customer: {
+                    fullName: 'Demo Customer',
+                    phone: '+94 77 123 4567'
+                },
+                delivery: {
+                    address: '123 Main Street',
+                    city: 'Colombo'
+                },
+                payment: {
+                    method: 'card',
+                    status: 'paid'
+                },
+                items: [
+                    {
+                        name: 'Sample Balloon',
+                        quantity: 1,
+                        total: 500,
+                        variations: 'Standard'
+                    }
+                ],
+                total: 500
+            };
+            
+            displayOrderDetails(mockOrder);
+        }
+
+        // Display Timeline
+        function displayTimeline(orderStatus, paymentStatus) {
+            const timeline = document.getElementById('timelineSteps');
+            
+            const steps = [
+                { title: 'Order Placed', desc: 'Your order has been received', status: 'completed' },
+                { title: paymentStatus === 'paid' ? 'Payment Confirmed' : 'Payment Verification', 
+                  desc: paymentStatus === 'paid' ? 'Payment received' : 'Verifying payment', 
+                  status: paymentStatus === 'paid' ? 'completed' : 'pending' },
+                { title: 'Processing', desc: 'Preparing your order', status: orderStatus === 'processing' || orderStatus === 'shipped' || orderStatus === 'delivered' ? 'completed' : 'pending' },
+                { title: 'Out for Delivery', desc: 'On the way to you', status: orderStatus === 'shipped' || orderStatus === 'delivered' ? 'completed' : 'pending' },
+                { title: 'Delivered', desc: 'Order completed', status: orderStatus === 'delivered' ? 'completed' : 'pending' }
+            ];
+
+            timeline.innerHTML = steps.map(step => {
+                const bgColor = step.status === 'completed' ? 'bg-green-500' : 
+                               step.status === 'pending' ? 'bg-orange-500 animate-pulse' : 
+                               'bg-surface-light dark:bg-background-dark';
+                const icon = step.status === 'completed' ? '✓' : '○';
+                
+                return `
+                    <div class="flex gap-4 items-start">
+                        <div class="w-8 h-8 rounded-full ${bgColor} flex items-center justify-center text-white font-bold text-sm flex-shrink-0 z-10">
+                            ${icon}
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <p class="font-bold ${step.status === 'pending' ? 'text-subtext-light dark:text-subtext-dark' : ''}">${step.title}</p>
+                            <p class="text-sm text-subtext-light dark:text-subtext-dark">${step.desc}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Show Error
+        function showError() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('errorState').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

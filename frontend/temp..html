@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Products - Balloons Galore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff1b8d",
+                        "secondary": "#ff6b9d",
+                        "accent": "#c86dd7",
+                        "background-light": "#fff5f9",
+                        "background-dark": "#1a0d14",
+                        "text-light": "#1c0d14",
+                        "text-dark": "#fff5f9",
+                        "subtext-light": "#9c4973",
+                        "subtext-dark": "#d4a7c0",
+                        "surface-light": "#ffe8f3",
+                        "surface-dark": "#2d1824",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "1.25rem",
+                        "xl": "1.75rem",
+                        "2xl": "2rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(26, 13, 20, 0.85);
+        }
+        
+        .category-tab {
+            transition: all 0.3s ease;
+        }
+        
+        .category-tab.active {
+            background: linear-gradient(135deg, #ff1b8d 0%, #c86dd7 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            
+            <!-- Header (Same as Home Page) -->
+            <header class="sticky top-0 z-[100] glass-effect border-b border-primary/10">
+                <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between py-2 sm:py-4">
+                        <div class="flex items-center gap-6 flex-1">
+                            <button id="mobileMenuBtn" class="lg:hidden flex cursor-pointer items-center justify-center rounded-xl h-9 w-9 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                </svg>
+                            </button>
+                            <nav class="hidden lg:flex items-center gap-6">
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="index.html">Home</a>
+                                <a class="text-sm font-semibold leading-normal text-primary" href="products.html">Shop</a>
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105" href="#">Categories</a>
+                            </nav>
+                        </div>
+                        
+                        <div class="flex items-center justify-center">
+                            <img src="images/logo new.jpg" alt="Balloons Galore" class="h-10 sm:h-14 md:h-20 w-auto">
+                        </div>
+                        
+                        <div class="flex items-center gap-2 sm:gap-3 justify-end flex-1">
+                            <label class="hidden md:flex flex-col min-w-48 max-w-64 relative w-full">
+                                <input type="text" placeholder="Search products..." class="w-full rounded-full bg-white/80 dark:bg-surface-dark/80 shadow-md focus:outline-none focus:ring-2 focus:ring-primary pl-10 pr-4 py-2 text-text-light dark:text-text-dark placeholder:text-subtext-light placeholder:dark:text-subtext-dark text-sm font-medium"/>
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-subtext-light dark:text-subtext-dark text-lg">search</span>
+                            </label>
+                            <div class="flex gap-2">
+                                <button class="flex cursor-pointer items-center justify-center rounded-2xl h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform shadow-sm">
+                                    <span class="material-symbols-outlined" style="font-size: 18px;">person</span>
+                                </button>
+                                <button class="flex cursor-pointer items-center justify-center rounded-2xl h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-primary to-accent text-white hover:scale-110 transition-transform shadow-lg shadow-primary/30">
+                                    <span class="material-symbols-outlined" style="font-size: 18px;">shopping_cart</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu -->
+                <div id="mobileMenu" class="lg:hidden hidden fixed inset-0 z-[99999]" style="z-index: 99999 !important;">
+                    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+                    <div class="relative glass-effect w-80 h-full shadow-2xl animate-slideIn overflow-y-auto">
+                        <div class="flex items-center justify-between p-4 border-b border-primary/10">
+                            <img src="images/logo new.jpg" alt="Balloons Galore" class="h-12 w-auto">
+                            <button id="closeMobileMenu" class="flex cursor-pointer items-center justify-center rounded-xl h-9 w-9 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <nav class="flex flex-col p-4 gap-1">
+                            <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="index.html">
+                                <span>🏠</span> Home
+                            </a>
+                            <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                                <span>🎈</span> Balloon Décor
+                            </a>
+                            <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                                <span>🎨</span> Event Styling
+                            </a>
+                            <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                                <span>🎈</span> Helium Balloons
+                            </a>
+                            <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                                <span>🌸</span> Flowers
+                            </a>
+                            <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                                <span>🎂</span> Cakes & Desserts
+                            </a>
+                            <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                                <span>🍫</span> Chocolates & Gifts
+                            </a>
+                            <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                                <span>🛍️</span> Shop Balloons & Accessories
+                            </a>
+                            <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                                <span>🎉</span> Occasions
+                            </a>
+                            <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                                <span>📸</span> Gallery
+                            </a>
+                            <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3" href="#">
+                                <span>📞</span> Contact & Bookings
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="flex-1">
+                <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 md:py-8">
+                    
+                    <!-- Page Header -->
+                    <div class="text-center mb-6 sm:mb-8">
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight tracking-tight mb-2 sm:mb-3 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                            Our Products
+                        </h1>
+                        <p class="text-subtext-light dark:text-subtext-dark text-sm sm:text-base md:text-lg font-medium">
+                            Browse our amazing collection of party essentials
+                        </p>
+                    </div>
+
+                    <!-- Category Tabs (Horizontal Scroll) -->
+                    <div class="mb-6 sm:mb-8">
+                        <div class="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide -mx-3 px-3">
+                            <button class="category-tab active px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap shadow-lg" data-category="all">
+                                ✨ All Products
+                            </button>
+                            <button class="category-tab px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold bg-white dark:bg-surface-dark shadow-md whitespace-nowrap hover:shadow-lg" data-category="helium">
+                                🎈 Helium Balloons
+                            </button>
+                            <button class="category-tab px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold bg-white dark:bg-surface-dark shadow-md whitespace-nowrap hover:shadow-lg" data-category="accessories">
+                                🎨 Balloons & Accessories
+                            </button>
+                            <button class="category-tab px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold bg-white dark:bg-surface-dark shadow-md whitespace-nowrap hover:shadow-lg" data-category="flowers">
+                                🌸 Flowers
+                            </button>
+                            <button class="category-tab px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold bg-white dark:bg-surface-dark shadow-md whitespace-nowrap hover:shadow-lg" data-category="cakes">
+                                🎂 Cakes & Desserts
+                            </button>
+                            <button class="category-tab px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold bg-white dark:bg-surface-dark shadow-md whitespace-nowrap hover:shadow-lg" data-category="chocolates">
+                                🍫 Chocolates & Gifts
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <!-- Subcategory Drawer -->
+                    <div id="subcategoryDrawer" class="drawer mb-6 sm:mb-8">
+                        <div class="bg-white dark:bg-surface-dark rounded-2xl p-4 sm:p-6 shadow-xl border-2 border-primary/10">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg sm:text-xl font-bold text-text-light dark:text-text-dark">
+                                    Choose Subcategory
+                                </h3>
+                                <button id="closeDrawer" class="text-subtext-light dark:text-subtext-dark hover:text-primary transition-colors">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div id="subcategoryGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+                                <!-- Subcategories will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    
+      <!-- Active Filter Display -->
+                    <div class="flex justify-between items-center mb-6 sm:mb-8 bg-white dark:bg-surface-dark rounded-2xl p-3 sm:p-4 shadow-md">
+                        <div class="text-sm font-semibold text-subtext-light dark:text-subtext-dark">
+                            <span id="activeFilter">All Products</span>
+                        </div>
+                        <select class="px-3 sm:px-4 py-2 bg-surface-light dark:bg-background-dark rounded-xl text-xs sm:text-sm font-semibold cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option>Sort: Featured</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Newest First</option>
+                            <option>Best Selling</option>
+                        </select>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6" id="productsGrid">
+                        <!-- Product Card 1 -->
+                        <div class="hover-lift flex flex-col rounded-xl sm:rounded-2xl bg-white dark:bg-surface-dark shadow-lg shadow-pink-200/50 dark:shadow-none overflow-hidden border-2 border-transparent hover:border-primary/30">
+                            <a href="helium-des.html?product=black-balloon">
+                                <div class="relative w-full aspect-square bg-cover bg-center" style='background-image: url("images/single-helium-plain/matte-black-10.png");'>
+                                    <div class="absolute top-2 right-2 bg-gradient-to-r from-primary to-accent text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg">
+                                        New
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="flex flex-col p-3 sm:p-4 md:p-5 gap-2 sm:gap-3">
+                                <a href="helium-des.html?product=black-balloon">
+                                    <p class="text-text-light dark:text-text-dark text-sm sm:text-base md:text-lg font-bold leading-snug line-clamp-2 hover:text-primary transition-colors">
+                                      Black Color 10” Helium Balloon
+
+                                    </p>
+                                </a>
+                                <p class="text-primary text-lg sm:text-xl md:text-2xl font-black">Rs. 350</p>
+                                <a href="helium-des.html?product=black-balloon" class="w-full bg-gradient-to-r from-primary to-accent text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 rounded-xl hover:scale-105 transition-all shadow-md text-center">
+                                    View Product
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 2 -->
+                        <div class="hover-lift flex flex-col rounded-xl sm:rounded-2xl bg-white dark:bg-surface-dark shadow-lg shadow-pink-200/50 dark:shadow-none overflow-hidden border-2 border-transparent hover:border-primary/30">
+                            <a href="helium-des.html?product=pastel-pink-balloon" class="block">
+                               <div class="relative w-full aspect-square bg-cover bg-center" style='background-image: url("images/single-helium-plain/new-pastel-pink.png");'>
+                                  <!--   <div class="absolute top-2 right-2 bg-gradient-to-r from-orange-400 to-pink-500 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg">
+                                        Sale
+                                    </div>-->
+                                </div>
+                            </a>
+                            <div class="flex flex-col p-3 sm:p-4 md:p-5 gap-2 sm:gap-3">
+                                <a href="helium-des.html?product=pastel-pink-balloon">
+                                    <p class="text-text-light dark:text-text-dark text-sm sm:text-base md:text-lg font-bold leading-snug line-clamp-2 hover:text-primary transition-colors">
+                                        Pastel Pink 10" Helium Balloon
+                                    </p>
+                                </a>
+                                <p class="text-primary text-lg sm:text-xl md:text-2xl font-black">Rs. 350</p>
+                                <a href="helium-des.html?product=pastel-pink-balloon" class="w-full bg-gradient-to-r from-primary to-accent text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 rounded-xl hover:scale-105 transition-all shadow-md text-center">
+                                    View Product
+                                </a>
+                            </div>
+                        </div>
+
+               
+                            
+                            
+
+            
+
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex justify-center items-center gap-2 mt-8 sm:mt-12">
+                        <button class="px-3 sm:px-4 py-2 rounded-xl bg-surface-light dark:bg-surface-dark font-semibold text-sm hover:bg-primary hover:text-white transition-all">
+                            Previous
+                        </button>
+                        <button class="px-3 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-bold text-sm">
+                            1
+                        </button>
+                        <button class="px-3 sm:px-4 py-2 rounded-xl bg-surface-light dark:bg-surface-dark font-semibold text-sm hover:bg-primary hover:text-white transition-all">
+                            2
+                        </button>
+                        <button class="px-3 sm:px-4 py-2 rounded-xl bg-surface-light dark:bg-surface-dark font-semibold text-sm hover:bg-primary hover:text-white transition-all">
+                            3
+                        </button>
+                        <button class="px-3 sm:px-4 py-2 rounded-xl bg-surface-light dark:bg-surface-dark font-semibold text-sm hover:bg-primary hover:text-white transition-all">
+                            Next
+                        </button>
+                    </div>
+
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="bg-gradient-to-br from-primary via-secondary to-accent text-white mt-12 sm:mt-16">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+                        <div>
+                            <h4 class="text-base sm:text-lg font-bold mb-3 sm:mb-4">About Us</h4>
+                            <p class="text-white/80 text-xs sm:text-sm leading-relaxed">Making celebrations memorable with beautiful balloon decorations since 2020.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-base sm:text-lg font-bold mb-3 sm:mb-4">Quick Links</h4>
+                            <ul class="space-y-2 text-xs sm:text-sm">
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Shop</a></li>
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Categories</a></li>
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">About Us</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-base sm:text-lg font-bold mb-3 sm:mb-4">Customer Service</h4>
+                            <ul class="space-y-2 text-xs sm:text-sm">
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Contact</a></li>
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Shipping</a></li>
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Returns</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-base sm:text-lg font-bold mb-3 sm:mb-4">Get in Touch</h4>
+                            <p class="text-white/80 text-xs sm:text-sm mb-1">info@balloongalore.com</p>
+                            <p class="text-white/80 text-xs sm:text-sm mb-1">+94 77 123 4567</p>
+                            <p class="text-white/80 text-xs sm:text-sm">Negombo, Sri Lanka</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-white/20 mt-6 sm:mt-8 pt-4 sm:pt-6 text-center">
+                        <p class="text-white/80 text-xs sm:text-sm">© 2025 Balloons Galore. All rights reserved. Made with 💖</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <script src="js/products.js"></script>
+<script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Subcategory Data
+    const subcategories = {
+        helium: [
+            { id: 'single', icon: '🎈', name: 'Single Helium Balloons', desc: 'Individual floating balloons' },
+            { id: 'bundles', icon: '🎁', name: 'Balloon Bundles', desc: 'Pre-made sets' },
+            { id: 'foil', icon: '🪩', name: 'Foil Balloons', desc: 'Colorful Balloons' },
+            { id: 'personalized', icon: '💭', name: 'Personalized Bubble', desc: 'Customized messages' },
+        ],
+        accessories: [
+            { id: 'packs', icon: '🎈', name: 'Balloon Packs', desc: 'Bulk balloons' },
+            { id: 'party', icon: '🎉', name: 'Party Items', desc: 'Decorations & supplies' },
+            { id: 'ribbons', icon: '🎀', name: 'Ribbons & Weights', desc: 'Essential accessories' },
+            { id: 'backdrops', icon: '📸', name: 'Backdrops & Props', desc: 'Photo booth setups' }
+        ],
+        flowers: [
+            { id: 'bouquets', icon: '💐', name: 'Flower Bouquets', desc: 'Fresh arrangements' },
+            { id: 'arrangements', icon: '🌹', name: 'Floral Arrangements', desc: 'Designer pieces' },
+            { id: 'combos', icon: '🎈', name: 'Balloon + Flower Combos', desc: 'Perfect pairs' },
+            { id: 'artificial', icon: '🌺', name: 'Artificial Arrangements', desc: 'Long-lasting beauty' }
+        ],
+        cakes: [
+            { id: 'custom', icon: '🎂', name: 'Custom Cakes', desc: 'Made to order' },
+            { id: 'cupcakes', icon: '🧁', name: 'Cupcakes', desc: 'Mini delights' },
+            { id: 'desserts', icon: '🍰', name: 'Desserts', desc: 'Sweet treats' },
+            { id: 'treats', icon: '🎁', name: 'Treat Boxes', desc: 'Curated selections' }
+        ],
+        chocolates: [
+            { id: 'boxes', icon: '🍫', name: 'Chocolate Boxes', desc: 'Premium selections' },
+            { id: 'hampers', icon: '🎁', name: 'Gift Hampers', desc: 'Luxury bundles' },
+            { id: 'choco-combos', icon: '🎈', name: 'Balloon + Chocolate Combos', desc: 'Sweet surprises' },
+            { id: 'personalized-gifts', icon: '💝', name: 'Personalized Gift Sets', desc: 'Custom creations' }
+        ]
+    };
+
+    // Mobile Menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMobileMenu = document.getElementById('closeMobileMenu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    });
+    
+    closeMobileMenu.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    });
+    
+    mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu) {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // Category Tab Functionality
+    const categoryTabs = document.querySelectorAll('.category-tab');
+    const subcategoryDrawer = document.getElementById('subcategoryDrawer');
+    const subcategoryGrid = document.getElementById('subcategoryGrid');
+    const closeDrawer = document.getElementById('closeDrawer');
+    const activeFilter = document.getElementById('activeFilter');
+    let currentCategory = null;
+    let currentSubcategory = null;
+    
+    categoryTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const category = tab.getAttribute('data-category');
+            
+            // Remove active from all tabs
+            categoryTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            // Handle "All Products" - close drawer and show all
+            if (category === 'all') {
+                subcategoryDrawer.classList.remove('active');
+                activeFilter.textContent = 'All Products';
+                currentCategory = null;
+                currentSubcategory = null;
+                displayAllProducts();
+                return;
+            }
+            
+            // If clicking same category, close drawer
+            if (currentCategory === category) {
+                subcategoryDrawer.classList.remove('active');
+                currentCategory = null;
+                currentSubcategory = null;
+                // Show all products in this category
+                filterByCategory(category);
+                return;
+            }
+            
+            // Show subcategories for selected category
+            currentCategory = category;
+            currentSubcategory = null;
+            showSubcategories(category);
+            activeFilter.textContent = tab.textContent.trim();
+            
+            // Show all products in this category by default
+            filterByCategory(category);
+            
+            // Scroll into view on mobile
+            tab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        });
+    });
+    
+    closeDrawer.addEventListener('click', () => {
+        subcategoryDrawer.classList.remove('active');
+        categoryTabs.forEach(t => t.classList.remove('active'));
+        categoryTabs[0].classList.add('active'); // Set "All Products" as active
+        activeFilter.textContent = 'All Products';
+        currentCategory = null;
+        currentSubcategory = null;
+        displayAllProducts();
+    });
+    
+    function showSubcategories(category) {
+        const subs = subcategories[category];
+        if (!subs) return;
+        
+        subcategoryGrid.innerHTML = '';
+        
+        subs.forEach(sub => {
+            const card = document.createElement('div');
+            card.className = 'subcategory-card cursor-pointer bg-gradient-to-br from-pink-50 to-purple-50 dark:from-surface-dark dark:to-accent/10 p-4 sm:p-5 rounded-xl border-2 border-primary/20 hover:border-primary/50 transition-all';
+            card.innerHTML = `
+                <div class="text-3xl sm:text-4xl mb-2 sm:mb-3">${sub.icon}</div>
+                <h3 class="font-bold text-sm sm:text-base mb-1">${sub.name}</h3>
+                <p class="text-xs text-subtext-light dark:text-subtext-dark">${sub.desc}</p>
+            `;
+            
+            card.addEventListener('click', () => {
+                // Remove active state from all subcategory cards
+                document.querySelectorAll('.subcategory-card').forEach(c => {
+                    c.classList.remove('ring-2', 'ring-primary', 'shadow-lg');
+                });
+                
+                // Add active state to clicked card
+                card.classList.add('ring-2', 'ring-primary', 'shadow-lg');
+                
+                // Update filter text
+                activeFilter.textContent = sub.name;
+                currentSubcategory = sub.id;
+                
+                // Filter products by subcategory
+                filterBySubcategory(category, sub.id);
+                
+                // Scroll past the drawer to show products
+                setTimeout(() => {
+                    const drawerHeight = subcategoryDrawer.offsetHeight;
+                    window.scrollBy({ 
+                        top: drawerHeight + 100, 
+                        behavior: 'smooth' 
+                    });
+                }, 150);
+            });
+            
+            subcategoryGrid.appendChild(card);
+        });
+        
+        // Show drawer
+        subcategoryDrawer.classList.add('active');
+    }
+
+    // ==================== PRODUCT FILTERING FUNCTIONS ====================
+    
+    function displayAllProducts() {
+        const productsGrid = document.getElementById('productsGrid');
+        if (!productsGrid) return;
+        
+        productsGrid.innerHTML = '';
+        
+        const allProducts = Object.entries(products);
+        
+        if (allProducts.length === 0) {
+            productsGrid.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <p class="text-2xl font-bold text-subtext-light dark:text-subtext-dark">
+                        No products available
+                    </p>
+                </div>
+            `;
+            return;
+        }
+        
+        allProducts.forEach(([id, product]) => {
+            productsGrid.appendChild(createProductCard(id, product));
+        });
+    }
+    
+    function filterByCategory(category) {
+        const productsGrid = document.getElementById('productsGrid');
+        if (!productsGrid) return;
+        
+        productsGrid.innerHTML = '';
+        
+        const filteredProducts = Object.entries(products).filter(([id, product]) => {
+            return product.category === category;
+        });
+        
+        if (filteredProducts.length === 0) {
+            productsGrid.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <p class="text-2xl font-bold text-subtext-light dark:text-subtext-dark">
+                        No products found in this category
+                    </p>
+                </div>
+            `;
+            return;
+        }
+        
+        filteredProducts.forEach(([id, product]) => {
+            productsGrid.appendChild(createProductCard(id, product));
+        });
+    }
+    
+    function filterBySubcategory(category, subcategory) {
+        const productsGrid = document.getElementById('productsGrid');
+        if (!productsGrid) return;
+        
+        productsGrid.innerHTML = '';
+        
+        const filteredProducts = Object.entries(products).filter(([id, product]) => {
+            return product.category === category && product.subcategory === subcategory;
+        });
+        
+        if (filteredProducts.length === 0) {
+            productsGrid.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <p class="text-2xl font-bold text-subtext-light dark:text-subtext-dark">
+                        No products found in this subcategory
+                    </p>
+                    <p class="text-sm text-subtext-light dark:text-subtext-dark mt-2">
+                        Try selecting a different subcategory
+                    </p>
+                </div>
+            `;
+            return;
+        }
+        
+        filteredProducts.forEach(([id, product]) => {
+            productsGrid.appendChild(createProductCard(id, product));
+        });
+    }
+    
+    // Helper function to create product card element
+    function createProductCard(id, product) {
+        const card = document.createElement('div');
+        card.className = 'hover-lift flex flex-col rounded-xl sm:rounded-2xl bg-white dark:bg-surface-dark shadow-lg shadow-pink-200/50 dark:shadow-none overflow-hidden border-2 border-transparent hover:border-primary/30';
+        
+        // Badge HTML
+        let badgeHTML = '';
+        if (product.badge) {
+            const badgeColors = {
+                'new': 'from-primary to-accent',
+                'sale': 'from-orange-400 to-pink-500',
+                'bestseller': 'from-purple-500 to-pink-500',
+                'trending': 'from-green-400 to-teal-500'
+            };
+            const colorClass = badgeColors[product.badge.toLowerCase()] || 'from-primary to-accent';
+            badgeHTML = `
+                <div class="absolute top-2 right-2 bg-gradient-to-r ${colorClass} text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg">
+                    ${product.badge}
+                </div>
+            `;
+        }
+        
+        card.innerHTML = `
+            <a href="helium-des.html?product=${id}" class="block">
+                <div class="relative w-full aspect-square bg-cover bg-center" style='background-image: url("${product.image}");'>
+                    ${badgeHTML}
+                </div>
+            </a>
+            <div class="flex flex-col p-3 sm:p-4 md:p-5 gap-2 sm:gap-3">
+                <a href="helium-des.html?product=${id}">
+                    <p class="text-text-light dark:text-text-dark text-sm sm:text-base md:text-lg font-bold leading-snug line-clamp-2 hover:text-primary transition-colors">
+                        ${product.name}
+                    </p>
+                </a>
+                <p class="text-primary text-lg sm:text-xl md:text-2xl font-black">Rs. ${product.standardPrice}</p>
+                <a href="helium-des.html?product=${id}" class="w-full bg-gradient-to-r from-primary to-accent text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 rounded-xl hover:scale-105 transition-all shadow-md text-center">
+                    View Product
+                </a>
+            </div>
+        `;
+        
+        return card;
+    }
+    
+    // Initialize products on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        // Load all products initially
+        displayAllProducts();
+        
+        // Check URL parameters for deep linking
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        const subcategory = urlParams.get('subcategory');
+        
+        if (category && category !== 'all') {
+            // Find and activate the category tab
+            const targetTab = document.querySelector(`[data-category="${category}"]`);
+            if (targetTab) {
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                targetTab.classList.add('active');
+                currentCategory = category;
+                
+                // Show subcategories
+                showSubcategories(category);
+                activeFilter.textContent = targetTab.textContent.trim();
+                
+                if (subcategory) {
+                    // Filter by subcategory
+                    currentSubcategory = subcategory;
+                    filterBySubcategory(category, subcategory);
+                    
+                    // Find and highlight the subcategory card
+                    setTimeout(() => {
+                        const subCards = document.querySelectorAll('.subcategory-card');
+                        const subData = subcategories[category];
+                        if (subData) {
+                            const subIndex = subData.findIndex(s => s.id === subcategory);
+                            if (subIndex !== -1 && subCards[subIndex]) {
+                                subCards[subIndex].classList.add('ring-2', 'ring-primary', 'shadow-lg');
+                                activeFilter.textContent = subData[subIndex].name;
+                            }
+                        }
+                    }, 100);
+                } else {
+                    // Show all products in category
+                    filterByCategory(category);
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

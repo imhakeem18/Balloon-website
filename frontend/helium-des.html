@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Product Detail - Balloons Galore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff1b8d",
+                        "secondary": "#ff6b9d",
+                        "accent": "#c86dd7",
+                        "background-light": "#fff5f9",
+                        "background-dark": "#1a0d14",
+                        "text-light": "#1c0d14",
+                        "text-dark": "#fff5f9",
+                        "subtext-light": "#9c4973",
+                        "subtext-dark": "#d4a7c0",
+                        "surface-light": "#ffe8f3",
+                        "surface-dark": "#2d1824",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "1.25rem",
+                        "xl": "1.75rem",
+                        "2xl": "2rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+
+
+    <style>
+        .color-option {
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.ring-4 {
+            transform: scale(1.15);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .animate-slideIn {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        /* Dropdown menu styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown>button {
+            padding: 0.5rem 0;
+        }
+
+        /* Dropdown panel */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -1rem;
+            margin-top: 0;
+            padding-top: 0.5rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.25s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Keep it open when hovering over button or dropdown */
+        .dropdown:hover .dropdown-menu,
+        .dropdown-menu:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Inner dropdown styling */
+        .dropdown-menu-inner {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 27, 141, 0.1);
+            padding: 0.5rem 0;
+            overflow: hidden;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .dark .dropdown-menu-inner {
+            background: rgba(26, 13, 20, 0.9);
+        }
+
+        /* FIX: ensure parent header or containers don't hide dropdowns */
+        header,
+        .layout-container {
+            overflow: visible !important;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes gradient-shift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .gradient-animated {
+            background-size: 200% 200%;
+            animation: gradient-shift 8s ease infinite;
+        }
+
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .dark .glass-effect {
+            background: rgba(26, 13, 20, 0.85);
+        }
+
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .shine-effect:hover::before {
+            left: 100%;
+        }
+
+        .option-box {
+            transition: all 0.3s;
+        }
+
+        .option-box.selected {
+            border-color: #ff1b8d !important;
+            background: linear-gradient(135deg, rgba(255, 27, 141, 0.1) 0%, rgba(200, 109, 215, 0.1) 100%) !important;
+        }
+    </style>
+
+
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+
+            <!-- Enhanced Header -->
+            <header class="sticky top-0 z-50 glass-effect border-b border-primary/10">
+                <div class="max-w-7xl mx-auto pr-3 sm:pr-6 lg:pr-8">
+                    <div class="flex items-center justify-between py-2 sm:py-4">
+                        <!-- Left Section - Logo (Desktop) / Hamburger (Mobile) -->
+                        <div class="flex items-center flex-1">
+                            <!-- Mobile Hamburger Menu Button -->
+                            <button id="mobileMenuBtn"
+                                class="lg:hidden flex cursor-pointer items-center justify-center rounded-xl h-9 w-9 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform ml-3">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                </svg>
+                            </button>
+
+                            <!-- Logo - Desktop Left Side -->
+                            <div class="hidden lg:flex items-center">
+                                <img src="images/logo new.jpg" alt="Balloons Galore" class="h-20"
+                                    style="width: auto; max-width: none;">
+
+                            </div>
+
+                            <!-- Desktop Navigation -->
+                            <nav class="hidden lg:flex items-center gap-6 ml-8">
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105"
+                                    href="index.html">Home</a>
+
+                                <!-- Services Dropdown -->
+                                <div class="dropdown">
+                                    <button
+                                        class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105 flex items-center gap-1 py-2">
+                                        Services
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M3 4.5L6 7.5L9 4.5" />
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-menu-inner">
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="#">Balloon Décor</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="#">Event Styling</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Products Dropdown -->
+                                <div class="dropdown">
+                                    <button
+                                        class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105 flex items-center gap-1 py-2">
+                                        Products
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M3 4.5L6 7.5L9 4.5" />
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-menu-inner">
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="products.html?category=helium">Helium Balloons</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="products.html?category=accessories">Balloons & Accessories</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="products.html?category=flowers">Flowers</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="products.html?category=cakes">Cakes & Desserts</a>
+                                            <a class="block px-4 py-2 text-sm font-semibold hover:text-primary hover:bg-surface-light dark:hover:bg-surface-dark transition-all"
+                                                href="products.html?category=chocolates">Chocolates & Gifts</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105"
+                                    href="#">Occasions</a>
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105"
+                                    href="#">Gallery</a>
+                                <a class="text-sm font-semibold leading-normal hover:text-primary transition-all hover:scale-105"
+                                    href="#">Contact</a>
+                            </nav>
+                        </div>
+
+                        <!-- Center - Logo (Mobile Only) -->
+                        <div class="flex lg:hidden items-center justify-center">
+                            <img src="images/logo new.jpg" alt="Balloons Galore" class="h-10 sm:h-14 md:h-20 w-auto">
+                        </div>
+
+                        <!-- Right Section - Search & Icons -->
+                        <div class="flex items-center gap-2 sm:gap-3 justify-end flex-1">
+                            <label class="hidden md:flex flex-col min-w-48 max-w-64 relative w-full">
+                                <input type="text" placeholder="Search products..."
+                                    class="w-full rounded-full bg-white/80 dark:bg-surface-dark/80 shadow-md focus:outline-none focus:ring-2 focus:ring-primary pl-10 pr-4 py-2 text-text-light dark:text-text-dark placeholder:text-subtext-light placeholder:dark:text-subtext-dark text-sm font-medium" />
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-subtext-light dark:text-subtext-dark text-lg">search</span>
+                            </label>
+                            <div class="flex gap-2">
+                                <button
+                                    class="flex cursor-pointer items-center justify-center rounded-2xl h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform shadow-sm">
+                                    <span class="material-symbols-outlined" style="font-size: 18px;">person</span>
+                                </button>
+                                <button
+                                    class="flex cursor-pointer items-center justify-center rounded-2xl h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-primary to-accent text-white hover:scale-110 transition-transform shadow-lg shadow-primary/30">
+                                    <span class="material-symbols-outlined"
+                                        style="font-size: 18px;">shopping_cart</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Mobile Menu Overlay -->
+            <div id="mobileMenu" class="lg:hidden hidden fixed inset-0 z-[9999]">
+                <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+                <div class="relative glass-effect w-80 h-full shadow-2xl animate-slideIn overflow-y-auto">
+                    <div class="flex items-center justify-between p-4 border-b border-primary/10">
+                        <img src="images/logo new.jpg" alt="Balloons Galore" class="h-12 w-auto">
+                        <button id="closeMobileMenu"
+                            class="flex cursor-pointer items-center justify-center rounded-xl h-9 w-9 bg-gradient-to-br from-surface-light to-pink-100 dark:from-surface-dark dark:to-accent/20 text-text-light dark:text-text-dark hover:scale-110 transition-transform">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="flex flex-col p-4 gap-1">
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="index.html">
+                            <span>🏠</span> Home
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="#">
+                            <span>🎈</span> Balloon Décor
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="#">
+                            <span>🎨</span> Event Styling
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="products.html?category=helium">
+                            <span>🎈</span> Helium Balloons
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="products.html?category=flowers">
+                            <span>🌸</span> Flowers
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="products.html?category=cakes">
+                            <span>🎂</span> Cakes & Desserts
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="products.html?category=chocolates">
+                            <span>🍫</span> Chocolates & Gifts
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="products.html?category=accessories">
+                            <span>🛍️</span> Balloons & Accessories
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="#">
+                            <span>🎉</span> Occasions
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="#">
+                            <span>📸</span> Gallery
+                        </a>
+                        <a class="text-base font-semibold leading-normal hover:text-primary transition-all hover:bg-surface-light dark:hover:bg-surface-dark p-3 rounded-xl flex items-center gap-3"
+                            href="#">
+                            <span>📞</span> Contact & Bookings
+                        </a>
+
+                        <!-- Mobile Search -->
+                        <div class="mt-4 pt-4 border-t border-primary/10">
+                            <label class="flex flex-col relative w-full">
+                                <input type="text" placeholder="Search products..."
+                                    class="w-full rounded-full bg-surface-light dark:bg-surface-dark shadow-md focus:outline-none focus:ring-2 focus:ring-primary pl-10 pr-4 py-3 text-text-light dark:text-text-dark placeholder:text-subtext-light placeholder:dark:text-subtext-dark text-sm font-medium" />
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-subtext-light dark:text-subtext-dark text-lg">search</span>
+                            </label>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <main class="flex-1">
+                <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 md:py-8">
+
+                    <!-- Breadcrumb -->
+                    <nav class="flex items-center gap-2 text-xs sm:text-sm mb-4 sm:mb-6 flex-wrap">
+                        <a href="index.html"
+                            class="text-subtext-light dark:text-subtext-dark hover:text-primary transition-colors">Home</a>
+                        <span class="text-subtext-light dark:text-subtext-dark">/</span>
+                        <a href="products.html"
+                            class="text-subtext-light dark:text-subtext-dark hover:text-primary transition-colors">Products</a>
+                        <span class="text-subtext-light dark:text-subtext-dark">/</span>
+                        <a href="products.html?category=helium"
+                            class="text-subtext-light dark:text-subtext-dark hover:text-primary transition-colors"
+                            id="breadcrumbCategory">Helium Balloons</a>
+                        <span class="text-subtext-light dark:text-subtext-dark">/</span>
+                        <span class="text-text-light dark:text-text-dark font-semibold"
+                            id="breadcrumbProduct">Loading...</span>
+                    </nav>
+
+                    <!-- Product Detail Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 mb-12">
+
+                        <!-- Left: Product Image -->
+                        <div class="bg-white dark:bg-surface-dark rounded-2xl p-4 sm:p-6 shadow-lg max-h-[700px] mt-10">
+                            <div
+                                class="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-surface-dark dark:to-background-dark rounded-2xl overflow-hidden flex items-center justify-center ">
+                                <img id="productImage"
+                                    src="https://images.unsplash.com/photo-1535467234474-27bece6670ed?w=800&q=80"
+                                    alt="Product" class="w-full h-full object-cover">
+                                <button id="wishlistBtn"
+                                    class="absolute top-4 right-4 bg-white dark:bg-surface-dark p-3 rounded-full shadow-lg hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-primary"
+                                        style="font-size: 24px;">favorite_border</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right: Product Info -->
+                        <div class="flex flex-col gap-4 sm:gap-6">
+                            <div>
+                                <h1 id="productName"
+                                    class="text-2xl sm:text-3xl md:text-4xl font-black text-text-light dark:text-text-dark mb-2 sm:mb-3">
+                                    Loading...
+                                </h1>
+                                <div class="flex items-center gap-4 mb-4">
+                                    <div class="text-3xl sm:text-4xl font-black text-primary" id="displayPrice">Rs. 350
+                                    </div>
+                                    <span
+                                        class="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 px-3 py-1 rounded-full text-xs sm:text-sm font-bold">In
+                                        Stock</span>
+                                </div>
+                            </div>
+
+                            <!-- Inflation Options -->
+                            <div id="inflationSection">
+                                <label class="block text-base sm:text-lg font-bold mb-3">Inflation Options 🎈</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <div class="option-box inflation-option selected border-2 border-gray-300 dark:border-surface-dark rounded-xl p-3 sm:p-4 cursor-pointer text-center"
+                                        data-inflation="helium" data-price="350">
+                                        <div class="font-bold text-sm sm:text-base">Helium Filled</div>
+                                    </div>
+                                    <div class="option-box inflation-option border-2 border-gray-300 dark:border-surface-dark rounded-xl p-3 sm:p-4 cursor-pointer text-center"
+                                        data-inflation="air" data-price="400">
+                                        <div class="font-bold text-sm sm:text-base">Air Filled</div>
+                                        <div class="text-xs text-subtext-light dark:text-subtext-dark mt-1">10 pcs</div>
+                                    </div>
+                                    <div class="option-box inflation-option border-2 border-gray-300 dark:border-surface-dark rounded-xl p-3 sm:p-4 cursor-pointer text-center"
+                                        data-inflation="flat" data-price="400">
+                                        <div class="font-bold text-sm sm:text-base">Flat Packed</div>
+                                        <div class="text-xs text-subtext-light dark:text-subtext-dark mt-1">10 pcs</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Float Time Options -->
+                            <div id="floatTimeSection">
+                                <label class="block text-base sm:text-lg font-bold mb-3">Float Time ⏱️</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="option-box float-option selected border-2 border-gray-300 dark:border-surface-dark rounded-xl p-4 cursor-pointer"
+                                        data-option="standard" data-price="350">
+                                        <div class="flex items-start justify-between">
+                                            <div>
+                                                <div class="font-bold text-sm sm:text-base">Standard Float</div>
+                                                <div
+                                                    class="text-xs sm:text-sm text-subtext-light dark:text-subtext-dark">
+                                                    5-6 hours</div>
+                                            </div>
+                                            <div class="font-black text-primary text-sm sm:text-base"
+                                                id="standardPriceDisplay">Rs. 350</div>
+                                        </div>
+                                    </div>
+                                    <div class="option-box float-option border-2 border-gray-300 dark:border-surface-dark rounded-xl p-4 cursor-pointer"
+                                        data-option="hifloat" data-price="400">
+                                        <div class="flex items-start justify-between">
+                                            <div>
+                                                <div class="font-bold text-sm sm:text-base">Hi-Float Treatment</div>
+                                                <div
+                                                    class="text-xs sm:text-sm text-subtext-light dark:text-subtext-dark">
+                                                    12+ hours</div>
+                                            </div>
+                                            <div class="font-black text-primary text-sm sm:text-base"
+                                                id="hifloatPriceDisplay">Rs. 400</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div id="numberSelectionSection" class="hidden">
+                                <label class="block text-base sm:text-lg font-bold mb-3">Select Number 🔢</label>
+                                <div class="grid grid-cols-5 gap-2 sm:gap-3" id="numberOptions">
+                                    <!-- Will be populated dynamically -->
+                                </div>
+                            </div>
+
+
+
+
+                            <!-- Add-on: Foil Weight -->
+                            <div>
+                                <label class="block text-base sm:text-lg font-bold mb-3">Add-On 🎁</label>
+                                <div
+                                    class="flex items-center gap-3 bg-surface-light dark:bg-background-dark rounded-xl p-4">
+                                    <input type="checkbox" id="foilWeight"
+                                        class="w-5 h-5 text-primary rounded focus:ring-2 focus:ring-primary cursor-pointer">
+                                    <label for="foilWeight"
+                                        class="flex-1 flex justify-between items-center cursor-pointer">
+                                        <span class="font-semibold text-sm sm:text-base">Foil Weight (holds balloon in
+                                            place)</span>
+                                        <span class="font-black text-primary text-sm sm:text-base"
+                                            id="foilWeightDisplay">+Rs. 250</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Quantity -->
+                            <div>
+                                <label class="block text-base sm:text-lg font-bold mb-3">Quantity</label>
+                                <div class="flex items-center gap-3">
+                                    <button id="decreaseQty"
+                                        class="bg-surface-light dark:bg-surface-dark hover:bg-primary hover:text-white w-10 h-10 sm:w-12 sm:h-12 rounded-xl font-bold text-lg transition-all">−</button>
+                                    <input type="number" id="quantity" value="1" min="1"
+                                        class="w-16 sm:w-20 h-10 sm:h-12 text-center rounded-xl border-2 border-surface-light dark:border-surface-dark bg-white dark:bg-background-dark font-bold text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <button id="increaseQty"
+                                        class="bg-surface-light dark:bg-surface-dark hover:bg-primary hover:text-white w-10 h-10 sm:w-12 sm:h-12 rounded-xl font-bold text-lg transition-all">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Total Price Display -->
+                            <div
+                                class="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 border-2 border-primary/20">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-base sm:text-lg font-bold">Total Price:</span>
+                                    <span class="text-2xl sm:text-3xl font-black text-primary" id="totalPrice">Rs.
+                                        350</span>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <button id="addToCartBtn"
+                                    class="flex-1 bg-gradient-to-r from-primary to-accent text-white font-bold text-base sm:text-lg py-3 sm:py-4 rounded-xl hover:scale-105 transition-all shadow-lg flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined">shopping_cart</span>
+                                    Add to Cart
+                                </button>
+                                <button
+                                    class="flex-1 bg-gradient-to-r from-accent to-purple-600 text-white font-bold text-base sm:text-lg py-3 sm:py-4 rounded-xl hover:scale-105 transition-all shadow-lg flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined">shopping_bag</span>
+                                    Buy Now
+                                </button>
+                            </div>
+
+                            <!-- Product Description -->
+                            <div class="bg-white dark:bg-surface-dark rounded-xl p-4 sm:p-6 shadow-md">
+                                <h3 class="text-lg sm:text-xl font-bold mb-3">Specifications 📋</h3>
+                                <ul id="specificationsList"
+                                    class="space-y-2 text-sm sm:text-base text-text-light dark:text-text-dark">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-primary mt-1">✓</span>
+                                        <span>Loading...</span>
+                                    </li>
+                                </ul>
+
+                                <h3 class="text-lg sm:text-xl font-bold mb-3 mt-6">🚚 Delivery & Pickup</h3>
+                                <ul id="deliveryList"
+                                    class="space-y-2 text-sm sm:text-base text-text-light dark:text-text-dark">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-primary mt-1">✓</span>
+                                        <span>Loading...</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Related Products -->
+                    <div>
+                        <h2
+                            class="text-2xl sm:text-3xl md:text-4xl font-black leading-tight tracking-tight mb-4 sm:mb-6 md:mb-8 text-center bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                            Related Products
+                        </h2>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                            <!-- Related Product 1 -->
+                            <div
+                                class="hover-lift flex flex-col rounded-xl sm:rounded-2xl bg-white dark:bg-surface-dark shadow-lg shadow-pink-200/50 dark:shadow-none overflow-hidden border-2 border-transparent hover:border-primary/30">
+                                <a href="#" class="block">
+                                    <div class="relative w-full aspect-square bg-cover bg-center"
+                                        style='background-image: url("images//single-helium-plain/matte-red-10.png");'>
+                                    </div>
+                                </a>
+                                <div class="flex flex-col p-3 sm:p-4 md:p-5 gap-2 sm:gap-3">
+                                    <a href="#">
+                                        <p
+                                            class="text-text-light dark:text-text-dark text-sm sm:text-base md:text-lg font-bold leading-snug line-clamp-2 hover:text-primary transition-colors">
+                                            Red 10" Helium Balloon</p>
+                                    </a>
+                                    <p class="text-primary text-lg sm:text-xl md:text-2xl font-black">Rs. 350</p>
+                                    <a href="#"
+                                        class="w-full bg-gradient-to-r from-primary to-accent text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 rounded-xl hover:scale-105 transition-all shadow-md text-center">View
+                                        Product</a>
+                                </div>
+                            </div>
+
+                            <!-- Related Product 2 -->
+                            <div
+                                class="hover-lift flex flex-col rounded-xl sm:rounded-2xl bg-white dark:bg-surface-dark shadow-lg shadow-pink-200/50 dark:shadow-none overflow-hidden border-2 border-transparent hover:border-primary/30">
+                                <a href="#" class="block">
+                                    <div class="relative w-full aspect-square bg-cover bg-center"
+                                        style='background-image: url("images/single-helium-plain/new-pastel-pink.png");'>
+                                    </div>
+                                </a>
+                                <div class="flex flex-col p-3 sm:p-4 md:p-5 gap-2 sm:gap-3">
+                                    <a href="#">
+                                        <p
+                                            class="text-text-light dark:text-text-dark text-sm sm:text-base md:text-lg font-bold leading-snug line-clamp-2 hover:text-primary transition-colors">
+                                            Pastel Pink 10" Helium Balloon</p>
+                                    </a>
+                                    <p class="text-primary text-lg sm:text-xl md:text-2xl font-black">Rs. 350</p>
+                                    <a href="#"
+                                        class="w-full bg-gradient-to-r from-primary to-accent text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 rounded-xl hover:scale-105 transition-all shadow-md text-center">View
+                                        Product</a>
+                                </div>
+                            </div>
+
+                            <!-- Related Product 3 -->
+                            <div
+                                class="hover-lift flex flex-col rounded-xl sm:rounded-2xl bg-white dark:bg-surface-dark shadow-lg shadow-pink-200/50 dark:shadow-none overflow-hidden border-2 border-transparent hover:border-primary/30">
+                                <a href="#" class="block">
+                                    <div class="relative w-full aspect-square bg-cover bg-center"
+                                        style='background-image: url("images/single-helium-plain/sage-green-10.jpg");'>
+                                    </div>
+                                </a>
+                                <div class="flex flex-col p-3 sm:p-4 md:p-5 gap-2 sm:gap-3">
+                                    <a href="#">
+                                        <p
+                                            class="text-text-light dark:text-text-dark text-sm sm:text-base md:text-lg font-bold leading-snug line-clamp-2 hover:text-primary transition-colors">
+                                            Sage Green 10" Helium Balloon</p>
+                                    </a>
+                                    <p class="text-primary text-lg sm:text-xl md:text-2xl font-black">Rs. 350</p>
+                                    <a href="#"
+                                        class="w-full bg-gradient-to-r from-primary to-accent text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 rounded-xl hover:scale-105 transition-all shadow-md text-center">View
+                                        Product</a>
+                                </div>
+                            </div>
+
+                            <!-- Related Product 4 -->
+                            <div
+                                class="hover-lift flex flex-col rounded-xl sm:rounded-2xl bg-white dark:bg-surface-dark shadow-lg shadow-pink-200/50 dark:shadow-none overflow-hidden border-2 border-transparent hover:border-primary/30">
+                                <a href="#" class="block">
+                                    <div class="relative w-full aspect-square bg-cover bg-center"
+                                        style='background-image: url("images/single-helium-plain/matte-dark-purple-10.png");'>
+                                    </div>
+                                </a>
+                                <div class="flex flex-col p-3 sm:p-4 md:p-5 gap-2 sm:gap-3">
+                                    <a href="#">
+                                        <p
+                                            class="text-text-light dark:text-text-dark text-sm sm:text-base md:text-lg font-bold leading-snug line-clamp-2 hover:text-primary transition-colors">
+                                            Dark Purple Helium 10" Balloon</p>
+                                    </a>
+                                    <p class="text-primary text-lg sm:text-xl md:text-2xl font-black">Rs. 350</p>
+                                    <a href="#"
+                                        class="w-full bg-gradient-to-r from-primary to-accent text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 rounded-xl hover:scale-105 transition-all shadow-md text-center">View
+                                        Product</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!-- Floating View Cart Button (appears after adding to cart) -->
+                <div id="viewCartFloat" class="fixed bottom-6 right-6 z-50 hidden">
+                    <a href="cart.html"
+                        class="flex items-center gap-3 bg-gradient-to-r from-primary to-accent text-white font-bold px-6 py-4 rounded-full shadow-2xl hover:scale-110 transition-all animate-slideInRight">
+                        <span class="material-symbols-outlined">shopping_cart</span>
+                        <span>View Cart</span>
+                        <span id="floatCartCount"
+                            class="bg-white text-primary rounded-full w-6 h-6 flex items-center justify-center text-sm font-black">1</span>
+                    </a>
+                </div>
+
+                <!-- Add to Cart Success Notification -->
+                <div id="cartNotification" class="fixed top-24 right-6 z-50 hidden">
+                    <div
+                        class="bg-white dark:bg-surface-dark rounded-2xl shadow-2xl p-4 border-2 border-primary/20 animate-slideInRight">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
+                                <span class="material-symbols-outlined text-white">check_circle</span>
+                            </div>
+                            <div>
+                                <p class="font-bold text-sm">Added to Cart!</p>
+                                <p class="text-xs text-subtext-light dark:text-subtext-dark">Item successfully added</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+            </main>
+
+            <!-- Footer -->
+            <footer class="bg-gradient-to-br from-primary via-secondary to-accent text-white mt-12 sm:mt-16">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+                        <div>
+                            <h4 class="text-base sm:text-lg font-bold mb-3 sm:mb-4">About Us</h4>
+                            <p class="text-white/80 text-xs sm:text-sm leading-relaxed">Making celebrations memorable
+                                with beautiful balloon decorations since 2020.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-base sm:text-lg font-bold mb-3 sm:mb-4">Quick Links</h4>
+                            <ul class="space-y-2 text-xs sm:text-sm">
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Contact</a>
+                                </li>
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Shipping</a>
+                                </li>
+                                <li><a href="#" class="text-white/80 hover:text-white transition-colors">Returns</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-base sm:text-lg font-bold mb-3 sm:mb-4">Get in Touch</h4>
+                            <p class="text-white/80 text-xs sm:text-sm mb-1">info@balloongalore.com</p>
+                            <p class="text-white/80 text-xs sm:text-sm mb-1">+94 77 123 4567</p>
+                            <p class="text-white/80 text-xs sm:text-sm">Colombo 13, Sri Lanka</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-white/20 mt-6 sm:mt-8 pt-4 sm:pt-6 text-center">
+                        <p class="text-white/80 text-xs sm:text-sm">© 2025 Balloons Galore. All rights reserved. Made
+                            with 💖</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- Load products.js FIRST -->
+    <script src="js/products.js"></script>
+
+    <!-- Load products.js FIRST -->
+    <script src="js/products.js"></script>
+
+
+
+
+
+
+    <script>
+        // ==================== HELPER FUNCTION ====================
+
+
+
+        function generateColorOptions() {
+            const colors = [
+                { name: 'Pink', hex: '#FF69B4' },
+                { name: 'Blue', hex: '#4169E1' },
+                { name: 'Gold', hex: '#FFD700' },
+                { name: 'Silver', hex: '#C0C0C0' },
+                { name: 'Rose Gold', hex: '#B76E79' },
+                { name: 'Purple', hex: '#9370DB' },
+                { name: 'Red', hex: '#DC143C' },
+                { name: 'White', hex: '#FFFFFF' },
+                { name: 'Black', hex: '#000000' },
+                { name: 'Green', hex: '#32CD32' },
+                { name: 'Yellow', hex: '#FFD700' },
+                { name: 'Orange', hex: '#FF8C00' }
+            ];
+
+            return colors.map(color => `
+        <div class="color-option cursor-pointer transition-all hover:scale-110" data-color="${color.name}">
+            <div class="w-12 h-12 rounded-full ${color.name === 'White' ? 'border-2 border-gray-400' : 'border-2 border-gray-300'}" style="background-color: ${color.hex};"></div>
+            <p class="text-xs font-semibold mt-1 text-center">${color.name}</p>
+        </div>
+    `).join('');
+        }
+
+        // Cart System
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            const floatCount = document.getElementById('floatCartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (badge) badge.textContent = totalItems;
+            if (floatCount) floatCount.textContent = totalItems;
+
+            const viewCartFloat = document.getElementById('viewCartFloat');
+            if (viewCartFloat) {
+                viewCartFloat.classList.toggle('hidden', totalItems === 0);
+            }
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('cartNotification');
+            notification.classList.remove('hidden');
+            setTimeout(() => notification.classList.add('hidden'), 3000);
+        }
+
+        // ==================== PRODUCT LOADING ====================
+        let basePrice = 350;
+        let foilWeightPrice = 250;
+        let quantity = 1;
+        let selectedInflation = 'helium';
+
+        function getProductFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('product') || 'black-balloon';
+        }
+
+        function loadProduct() {
+            const productId = getProductFromURL();
+            const product = products[productId];
+
+            if (!product) {
+                console.error('Product not found');
+                return;
+            }
+
+            // Update page info
+            document.title = product.name + ' - Balloons Galore';
+            document.getElementById('productImage').src = product.image;
+            document.getElementById('productImage').alt = product.name;
+            document.getElementById('productName').textContent = product.name;
+            document.getElementById('breadcrumbCategory').textContent = product.category;
+            document.getElementById('breadcrumbProduct').textContent = product.name;
+
+            hideAllOptions();
+
+            // ========== COMBO-SELECTION TYPE ==========
+            if (product.type === 'combo-selection') {
+                hideInflationOptions();
+                hideFloatTimeOptions();
+                document.getElementById('foilWeight').parentElement.parentElement.style.display = 'none';
+
+                const inflationSection = document.getElementById('inflationSection');
+                const floatSection = document.getElementById('floatTimeSection');
+
+                // Options
+                inflationSection.innerHTML = `
+            <label class="block text-base sm:text-lg font-bold mb-3">Select Option *</label>
+            <div class="space-y-3">
+                ${product.options.map((option, index) => `
+                    <div class="option-box option-card ${index === 0 ? 'selected border-primary bg-primary/10' : 'border-gray-300'} border-2 rounded-xl p-4 cursor-pointer" data-option="${index}">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold">${option.name}</p>
+                                <p class="text-xs text-subtext-light dark:text-subtext-dark">${option.description || ''}</p>
+                            </div>
+                            <p class="text-sm font-bold text-primary">Rs. ${option.standardPrice.toLocaleString()}</p>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+                inflationSection.classList.remove('hidden');
+
+                // Float time
+                floatSection.innerHTML = `
+            <label class="block text-base sm:text-lg font-bold mb-3">Float Time ⏱️</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="option-box float-card selected border-primary bg-primary/10 border-2 rounded-xl p-4 cursor-pointer" data-float="standard">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="font-bold">Standard (6hrs)</div>
+                            <div class="text-xs text-subtext-light dark:text-subtext-dark">Best for same-day</div>
+                        </div>
+                        <div class="font-black text-primary" id="comboStandardPrice">Rs. ${product.options[0].standardPrice.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="option-box float-card border-2 border-gray-300 rounded-xl p-4 cursor-pointer" data-float="hifloat">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="font-bold">Extended (12hrs)</div>
+                            <div class="text-xs text-subtext-light dark:text-subtext-dark">+extra hours</div>
+                        </div>
+                        <div class="font-black text-primary" id="comboHifloatPrice">Rs. ${product.options[0].hifloatPrice.toLocaleString()}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+                floatSection.classList.remove('hidden');
+
+                // Number input (conditional)
+                const numberSection = document.getElementById('numberSelectionSection');
+                if (product.showNumberInput !== false) {
+                    numberSection.classList.remove('hidden');
+                    numberSection.innerHTML = `
+                <label class="block text-base sm:text-lg font-bold mb-3">Number (2 digits) *</label>
+                <input type="number" id="balloonNumber" min="0" max="99" placeholder="e.g., 25" 
+                       class="w-full px-4 py-3 rounded-xl border-2 focus:ring-2 focus:ring-primary">
+            `;
+                }
+
+                // Add-ons and colors
+                const insertAfter = product.showNumberInput !== false ? numberSection : floatSection;
+                insertAfter.insertAdjacentHTML('afterend', `
+            ${product.customWording !== false ? `
+            <div class="mb-6">
+                <label class="block text-base sm:text-lg font-bold mb-3">Custom Wording (Optional)</label>
+                <input type="text" id="customWording" maxlength="50" placeholder="e.g., Happy Birthday Sarah" 
+                       class="w-full px-4 py-3 rounded-xl border-2 focus:ring-2 focus:ring-primary">
+            </div>
+            ` : ''}
+
+            ${product.hasNameWordingAddon || product.hasWeightAddon ? `
+            <div class="mb-6">
+                <label class="block text-base sm:text-lg font-bold mb-3">Add-On 🎁</label>
+                ${product.hasWeightAddon ? `
+                <div class="flex items-center gap-3 bg-surface-light dark:bg-background-dark rounded-xl p-4 mb-3">
+                    <input type="checkbox" id="weightAddon" class="w-5 h-5 text-primary rounded cursor-pointer">
+                    <label for="weightAddon" class="flex-1 cursor-pointer font-semibold">Balloon Weight</label>
+                    <span class="font-black text-primary">+Rs. ${product.weightAddonPrice}</span>
+                </div>
+                ` : ''}
+                ${product.hasNameWordingAddon ? `
+                <div class="flex items-center gap-3 bg-surface-light dark:bg-background-dark rounded-xl p-4">
+                    <input type="checkbox" id="nameWordingAddon" class="w-5 h-5 text-primary rounded cursor-pointer">
+                    <label for="nameWordingAddon" class="flex-1 cursor-pointer font-semibold">Add Name Wording</label>
+                    <span class="font-black text-primary">+Rs. ${product.nameWordingPrice}</span>
+                </div>
+                <input type="text" id="nameWordingText" placeholder="Enter name..." class="w-full px-4 py-3 rounded-xl border-2 mt-3 hidden">
+                ` : ''}
+            </div>
+            ` : ''}
+
+            <div class="mb-6">
+                <label class="block text-base sm:text-lg font-bold mb-3">Select Colors (Choose up to ${product.maxColors || 3}) *</label>
+                <div class="grid grid-cols-4 sm:grid-cols-6 gap-3 mb-3" id="colorGrid">
+                    ${generateColorOptions()}
+                </div>
+                <p class="text-xs text-subtext-light dark:text-subtext-dark">Selected: <span id="selectedColorsText">None</span></p>
+            </div>
+        `);
+
+
+                document.getElementById('weightAddonSimple')?.addEventListener('change', function () {
+                    if (this.checked) {
+                        basePrice = selectedFloatStandard ? product.standardPrice + product.weightAddonPrice : product.hifloatPrice + product.weightAddonPrice;
+                    } else {
+                        basePrice = selectedFloatStandard ? product.standardPrice : product.hifloatPrice;
+                    }
+                    document.getElementById('displayPrice').textContent = `Rs. ${basePrice.toLocaleString()}`;
+                    calculateTotal();
+                });
+
+                basePrice = product.standardPrice;
+                foilWeightPrice = 0;
+
+                // State
+                let selectedOption = 0;
+                let selectedFloat = 'standard';
+                let selectedColors = [];
+                basePrice = product.options[0].standardPrice;
+
+                // Price calculation
+                function calculateComboPrice() {
+                    const option = product.options[selectedOption];
+                    let price = selectedFloat === 'standard' ? option.standardPrice : option.hifloatPrice;
+
+                    if (document.getElementById('nameWordingAddon')?.checked) {
+                        price += product.nameWordingPrice || 0;
+                    }
+                    if (document.getElementById('weightAddon')?.checked) {
+                        price += product.weightAddonPrice || 0;
+                    }
+
+                    basePrice = price;
+                    document.getElementById('displayPrice').textContent = `Rs. ${basePrice.toLocaleString()}`;
+                    document.getElementById('comboStandardPrice').textContent = `Rs. ${option.standardPrice.toLocaleString()}`;
+                    document.getElementById('comboHifloatPrice').textContent = `Rs. ${option.hifloatPrice.toLocaleString()}`;
+                    calculateTotal();
+                }
+
+                // Event listeners
+                document.querySelectorAll('.option-card').forEach(card => {
+                    card.addEventListener('click', function () {
+                        document.querySelectorAll('.option-card').forEach(c => {
+                            c.classList.remove('selected', 'border-primary', 'bg-primary/10');
+                            c.classList.add('border-gray-300');
+                        });
+                        this.classList.remove('border-gray-300');
+                        this.classList.add('selected', 'border-primary', 'bg-primary/10');
+                        selectedOption = parseInt(this.getAttribute('data-option'));
+                        calculateComboPrice();
+                    });
+                });
+
+                document.querySelectorAll('.float-card').forEach(card => {
+                    card.addEventListener('click', function () {
+                        document.querySelectorAll('.float-card').forEach(c => {
+                            c.classList.remove('selected', 'border-primary', 'bg-primary/10');
+                            c.classList.add('border-gray-300');
+                        });
+                        this.classList.remove('border-gray-300');
+                        this.classList.add('selected', 'border-primary', 'bg-primary/10');
+                        selectedFloat = this.getAttribute('data-float');
+                        calculateComboPrice();
+                    });
+                });
+
+                document.getElementById('colorGrid')?.addEventListener('click', (e) => {
+                    const colorOption = e.target.closest('.color-option');
+                    if (!colorOption) return;
+
+                    const colorName = colorOption.getAttribute('data-color');
+                    const maxColors = product.maxColors || 3;
+
+                    if (selectedColors.includes(colorName)) {
+                        selectedColors = selectedColors.filter(c => c !== colorName);
+                        colorOption.classList.remove('ring-4', 'ring-primary');
+                    } else {
+                        if (selectedColors.length >= maxColors) {
+                            alert(`You can select maximum ${maxColors} colors`);
+                            return;
+                        }
+                        selectedColors.push(colorName);
+                        colorOption.classList.add('ring-4', 'ring-primary');
+                    }
+
+                    document.getElementById('selectedColorsText').textContent =
+                        selectedColors.length > 0 ? selectedColors.join(', ') : 'None';
+                });
+
+                document.getElementById('weightAddon')?.addEventListener('change', calculateComboPrice);
+                document.getElementById('nameWordingAddon')?.addEventListener('change', function () {
+                    document.getElementById('nameWordingText')?.classList.toggle('hidden', !this.checked);
+                    calculateComboPrice();
+                });
+            }
+            // ========== SIMPLE WITH NUMBER ==========
+            else if (product.type === 'simple-with-number') {
+                hideInflationOptions();
+                hideFloatTimeOptions();
+                document.getElementById('foilWeight').parentElement.parentElement.style.display = 'none';
+
+                const numberSection = document.getElementById('numberSelectionSection');
+                numberSection.classList.remove('hidden');
+                numberSection.innerHTML = `
+            <label class="block text-base sm:text-lg font-bold mb-3">Enter Number (2 digits) *</label>
+            <input type="number" id="balloonNumber" min="0" max="99" placeholder="e.g., 25, 01, 18..." 
+                   class="w-full px-4 py-3 rounded-xl border-2 focus:ring-2 focus:ring-primary">
+            <p class="text-xs text-subtext-light dark:text-subtext-dark mt-2">Enter a number between 00-99</p>
+        `;
+
+                basePrice = product.price;
+                foilWeightPrice = 0;
+            }
+            // ========== OTHER TYPES ==========
+            else if (product.type === 'helium-latex') {
+                showInflationOptions();
+                showFloatTimeOptions(product);
+                showAddOns(product);
+
+                if (product.hideFoilWeight) {
+                    document.getElementById('foilWeight').parentElement.parentElement.style.display = 'none';
+                } else {
+                    showAddOns(product);
+                }
+
+
+
+                basePrice = product.standardPrice;
+                foilWeightPrice = product.foilWeightPrice;
+
+
+
+            }
+
+
+            else if (product.type === 'helium-bunch-simple') {
+                hideInflationOptions();
+                showFloatTimeOptions(product);
+                document.getElementById('foilWeight').parentElement.parentElement.style.display = 'none';
+
+                const floatSection = document.getElementById('floatTimeSection');
+                floatSection.insertAdjacentHTML('afterend', `
+        ${product.hasWeightAddon ? `
+        <div class="mb-6">
+            <label class="block text-base sm:text-lg font-bold mb-3">Add-On 🎁</label>
+            <div class="flex items-center gap-3 bg-surface-light dark:bg-background-dark rounded-xl p-4">
+                <input type="checkbox" id="weightAddonSimple" class="w-5 h-5 text-primary rounded cursor-pointer">
+                <label for="weightAddonSimple" class="flex-1 cursor-pointer font-semibold">Balloon Weight (holds bunch in place)</label>
+                <span class="font-black text-primary">+Rs. ${product.weightAddonPrice}</span>
+            </div>
+        </div>
+        ` : ''}
+        
+        <div class="mb-6">
+            <label class="block text-base sm:text-lg font-bold mb-3">Select Colors (Choose up to ${product.maxColors}) *</label>
+            <div class="grid grid-cols-4 sm:grid-cols-6 gap-3 mb-3" id="colorGrid">
+                ${generateColorOptions()}
+            </div>
+            <div class="flex items-center gap-2 mt-3">
+                <input type="text" id="customColorInput" placeholder="Or type custom color..." 
+                       class="flex-1 px-4 py-2 rounded-xl border-2 focus:ring-2 focus:ring-primary text-sm">
+                <button id="addCustomColorBtn" class="bg-primary text-white px-4 py-2 rounded-xl font-semibold hover:scale-105 transition-all">Add</button>
+            </div>
+            <p class="text-xs text-subtext-light dark:text-subtext-dark mt-2">Selected: <span id="selectedColorsText">None</span></p>
+        </div>
+    `);
+
+                // Color selection handler
+                let selectedColors = [];
+                const maxColors = product.maxColors || 3;
+
+                document.getElementById('colorGrid')?.addEventListener('click', (e) => {
+                    const colorOption = e.target.closest('.color-option');
+                    if (!colorOption) return;
+
+                    const colorName = colorOption.getAttribute('data-color');
+
+                    if (selectedColors.includes(colorName)) {
+                        selectedColors = selectedColors.filter(c => c !== colorName);
+                        colorOption.classList.remove('ring-4', 'ring-primary');
+                    } else {
+                        if (selectedColors.length >= maxColors) {
+                            alert(`You can select maximum ${maxColors} colors`);
+                            return;
+                        }
+                        selectedColors.push(colorName);
+                        colorOption.classList.add('ring-4', 'ring-primary');
+                    }
+
+                    document.getElementById('selectedColorsText').textContent =
+                        selectedColors.length > 0 ? selectedColors.join(', ') : 'None';
+                });
+
+                // Custom color button handler
+                document.getElementById('addCustomColorBtn')?.addEventListener('click', () => {
+                    const customColorInput = document.getElementById('customColorInput');
+                    const customColor = customColorInput.value.trim();
+
+                    if (!customColor) {
+                        alert('Please enter a color name');
+                        return;
+                    }
+
+                    if (selectedColors.length >= maxColors) {
+                        alert(`You can select maximum ${maxColors} colors`);
+                        return;
+                    }
+
+                    if (selectedColors.includes(customColor)) {
+                        alert('Color already added');
+                        return;
+                    }
+
+                    selectedColors.push(customColor);
+                    customColorInput.value = '';
+
+                    document.getElementById('selectedColorsText').textContent =
+                        selectedColors.length > 0 ? selectedColors.join(', ') : 'None';
+                });
+
+                // Track float time and weight addon
+                let isHifloat = false;
+
+                function updateSimpleBunchPrice() {
+                    let price = isHifloat ? product.hifloatPrice : product.standardPrice;
+
+                    if (document.getElementById('weightAddonSimple')?.checked) {
+                        price += product.weightAddonPrice || 0;
+                    }
+
+                    basePrice = price;
+                    document.getElementById('displayPrice').textContent = `Rs. ${basePrice.toLocaleString()}`;
+                    calculateTotal();
+                }
+
+                // Float time click handlers
+                document.querySelectorAll('.float-option').forEach(option => {
+                    option.addEventListener('click', function () {
+                        document.querySelectorAll('.float-option').forEach(o => o.classList.remove('selected'));
+                        this.classList.add('selected');
+                        isHifloat = this.getAttribute('data-option') === 'hifloat';
+                        updateSimpleBunchPrice();
+                    });
+                });
+
+                // Weight addon handler
+                document.getElementById('weightAddonSimple')?.addEventListener('change', updateSimpleBunchPrice);
+
+                basePrice = product.standardPrice;
+                foilWeightPrice = 0;
+            }
+
+            else if (product.type === 'foil') {
+                showInflationOptions();
+                hideFloatTimeOptions();
+                showAddOns(product);
+                basePrice = product.price || 1100;
+                foilWeightPrice = product.foilWeightPrice || 250;
+            } else if (product.type === 'foil-number') {
+                product.hideInflation ? hideInflationOptions() : showInflationOptions();
+                product.hideFloatTime ? hideFloatTimeOptions() : showFloatTimeOptions(product);
+                showNumberSelection(product);
+
+                if (product.hideFoilWeight) {
+                    document.getElementById('foilWeight').parentElement.parentElement.style.display = 'none';
+                } else {
+                    showAddOns(product);
+                }
+
+                basePrice = product.standardPrice || product.price;
+                foilWeightPrice = product.foilWeightPrice || 0;
+            }
+
+            // ========== UPDATE UI ==========
+            document.getElementById('displayPrice').textContent = `Rs. ${basePrice.toLocaleString()}`;
+
+            document.getElementById('specificationsList').innerHTML = product.description.map(desc => `
+        <li class="flex items-start gap-2">
+            <span class="text-primary mt-1">✓</span>
+            <span>${desc}</span>
+        </li>
+    `).join('');
+
+            document.getElementById('deliveryList').innerHTML = product.delivery.map(info => `
+        <li class="flex items-start gap-2">
+            <span class="text-primary mt-1">✓</span>
+            <span>${info}</span>
+        </li>
+    `).join('');
+
+            calculateTotal();
+        }
+
+        // Helper functions
+        function hideAllOptions() {
+            document.getElementById('inflationSection')?.classList.add('hidden');
+            document.getElementById('floatTimeSection')?.classList.add('hidden');
+        }
+
+        function showInflationOptions() {
+            document.getElementById('inflationSection')?.classList.remove('hidden');
+        }
+
+        function hideInflationOptions() {
+            document.getElementById('inflationSection')?.classList.add('hidden');
+        }
+
+        function showFloatTimeOptions(product) {
+            const section = document.getElementById('floatTimeSection');
+            if (section) {
+                section.classList.remove('hidden');
+                document.querySelector('[data-option="standard"]')?.setAttribute('data-price', product.standardPrice);
+                document.getElementById('standardPriceDisplay').textContent = `Rs. ${product.standardPrice}`;
+                document.querySelector('[data-option="hifloat"]')?.setAttribute('data-price', product.hifloatPrice);
+                document.getElementById('hifloatPriceDisplay').textContent = `Rs. ${product.hifloatPrice}`;
+            }
+        }
+
+        function hideFloatTimeOptions() {
+            document.getElementById('floatTimeSection')?.classList.add('hidden');
+        }
+
+        function showAddOns(product) {
+            if (product.foilWeightPrice) {
+                document.getElementById('foilWeightDisplay').textContent = `+Rs. ${product.foilWeightPrice}`;
+            }
+        }
+
+        function showNumberSelection(product) {
+            const section = document.getElementById('numberSelectionSection');
+            const container = document.getElementById('numberOptions');
+
+            if (!section || !container || !product.numberOptions) return;
+
+            section.classList.remove('hidden');
+            container.innerHTML = '';
+
+            product.numberOptions.forEach(number => {
+                const btn = document.createElement('button');
+                btn.className = 'number-option option-box border-2 border-gray-300 rounded-xl p-3 sm:p-4 cursor-pointer text-center hover:border-primary/50 transition-all';
+                btn.setAttribute('data-number', number);
+                btn.innerHTML = `<div class="font-black text-2xl sm:text-3xl text-primary">${number}</div>`;
+
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.number-option').forEach(opt => {
+                        opt.classList.remove('selected', 'ring-2', 'ring-primary');
+                    });
+                    this.classList.add('selected', 'ring-2', 'ring-primary');
+
+                    const selectedNumber = this.getAttribute('data-number');
+                    const baseName = product.name.split(' - ')[0];
+                    document.getElementById('productName').textContent = `${baseName} - Number ${selectedNumber}`;
+                });
+
+                container.appendChild(btn);
+            });
+
+            container.querySelector('.number-option')?.classList.add('selected', 'ring-2', 'ring-primary');
+        }
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                mobileMenu.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Price Calculation
+        const displayPrice = document.getElementById('displayPrice');
+        const totalPrice = document.getElementById('totalPrice');
+        const quantityInput = document.getElementById('quantity');
+        const decreaseQtyBtn = document.getElementById('decreaseQty');
+        const increaseQtyBtn = document.getElementById('increaseQty');
+        const foilWeightCheckbox = document.getElementById('foilWeight');
+        const inflationOptions = document.querySelectorAll('.inflation-option');
+        const floatOptions = document.querySelectorAll('.float-option');
+        const wishlistBtn = document.getElementById('wishlistBtn');
+
+        inflationOptions.forEach(box => {
+            box.addEventListener('click', function () {
+                inflationOptions.forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedInflation = this.getAttribute('data-inflation');
+
+                const productId = getProductFromURL();
+                const currentProduct = products[productId];
+
+                if (selectedInflation === 'air' || selectedInflation === 'flat') {
+                    basePrice = currentProduct.airFilledPrice || 400;
+                    displayPrice.textContent = `Rs. ${basePrice}`;
+
+                    floatOptions.forEach(opt => {
+                        opt.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+                        opt.classList.remove('selected');
+                    });
+
+                    if (foilWeightCheckbox) {
+                        foilWeightCheckbox.disabled = true;
+                        foilWeightCheckbox.checked = false;
+                    }
+                } else {
+                    if (currentProduct.type === 'foil' || currentProduct.type === 'foil-number') {
+                        basePrice = currentProduct.price || currentProduct.standardPrice || 1100;
+                    } else {
+                        basePrice = currentProduct.standardPrice || 350;
+                    }
+                    displayPrice.textContent = `Rs. ${basePrice}`;
+
+                    if (floatOptions.length > 0) {
+                        floatOptions.forEach(opt => {
+                            opt.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+                        });
+                        floatOptions[0].classList.add('selected');
+                    }
+
+                    if (foilWeightCheckbox) {
+                        foilWeightCheckbox.disabled = false;
+                    }
+                }
+
+                calculateTotal();
+            });
+        });
+
+        floatOptions.forEach(option => {
+            option.addEventListener('click', function () {
+                if (selectedInflation === 'helium') {
+                    floatOptions.forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    basePrice = parseInt(this.getAttribute('data-price'));
+                    displayPrice.textContent = `Rs. ${basePrice}`;
+                    calculateTotal();
+                }
+            });
+        });
+
+        foilWeightCheckbox.addEventListener('change', calculateTotal);
+
+        decreaseQtyBtn.addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                quantityInput.value = quantity;
+                calculateTotal();
+            }
+        });
+
+        increaseQtyBtn.addEventListener('click', () => {
+            quantity++;
+            quantityInput.value = quantity;
+            calculateTotal();
+        });
+
+        quantityInput.addEventListener('input', (e) => {
+            let value = parseInt(e.target.value) || 1;
+            if (value < 1) value = 1;
+            quantity = value;
+            quantityInput.value = quantity;
+            calculateTotal();
+        });
+
+        function calculateTotal() {
+            let itemPrice = basePrice;
+
+            if (selectedInflation === 'helium' && foilWeightCheckbox.checked) {
+                itemPrice += foilWeightPrice;
+            }
+
+            const total = itemPrice * quantity;
+            totalPrice.textContent = `Rs. ${total.toLocaleString()}`;
+        }
+
+        let isWishlisted = false;
+        wishlistBtn.addEventListener('click', () => {
+            isWishlisted = !isWishlisted;
+            const icon = wishlistBtn.querySelector('.material-symbols-outlined');
+            if (isWishlisted) {
+                icon.textContent = 'favorite';
+                icon.style.fontVariationSettings = "'FILL' 1";
+            } else {
+                icon.textContent = 'favorite_border';
+                icon.style.fontVariationSettings = "'FILL' 0";
+            }
+        });
+
+
+        // Add to Cart & Redirect
+        const addToCartBtn = document.getElementById('addToCartBtn');
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', () => {
+                const productId = getProductFromURL();
+                const product = products[productId];
+
+                if (!product) return;
+
+                // Gather options
+                const options = {
+                    inflation: selectedInflation,
+                    quantity: quantity,
+                    price: parseInt(totalPrice.textContent.replace(/[^\d]/g, '')),
+                    basePrice: basePrice
+                };
+
+                // Float Time
+                const selectedFloatEl = document.querySelector('.float-option.selected');
+                if (selectedFloatEl) {
+                    options.float = selectedFloatEl.getAttribute('data-option');
+                }
+
+                // Foil Weight
+                if (document.getElementById('foilWeight') && document.getElementById('foilWeight').checked) {
+                    options.foilWeight = true;
+                }
+
+                // Colors
+                const selectedColorEls = document.querySelectorAll('.color-option.ring-primary');
+                if (selectedColorEls.length > 0) {
+                    options.colors = Array.from(selectedColorEls).map(el => el.getAttribute('data-color'));
+                }
+
+                // Number Selection (Input)
+                const numberInput = document.getElementById('balloonNumber');
+                if (numberInput && !numberInput.closest('.hidden') && numberInput.value) {
+                    options.number = numberInput.value;
+                }
+
+                // Number Selection (Buttons)
+                const selectedNumberBtn = document.querySelector('.number-option.selected');
+                if (selectedNumberBtn) {
+                    options.number = selectedNumberBtn.getAttribute('data-number');
+                }
+
+                // Custom Wording
+                const wordingInput = document.getElementById('customWording');
+                if (wordingInput && wordingInput.value) {
+                    options.customWording = wordingInput.value;
+                }
+
+                // Name Wording Addon
+                if (document.getElementById('nameWordingAddon') && document.getElementById('nameWordingAddon').checked) {
+                    const nameText = document.getElementById('nameWordingText');
+                    if (nameText) options.nameWording = nameText.value;
+                }
+
+                // Create Cart Item
+                const cartItem = {
+                    id: productId + '-' + Date.now(),
+                    productId: productId,
+                    name: product.name,
+                    image: product.image,
+                    ...options
+                };
+
+                // Save to Cart
+                cart.push(cartItem);
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                // Update Badge (optional)
+                updateCartBadge();
+
+                // Redirect
+                window.location.href = 'cart.html';
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', loadProduct);
+        updateCartBadge();
+    </script>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+
+
+<script>
+// Get product name from URL (your format: ?product=light-green-balloon)
+const urlParams = new URLSearchParams(window.location.search);
+const productName = urlParams.get('product');
+
+// Find the product in products object
+let currentProduct = null;
+if (productName && typeof products !== 'undefined') {
+    // Your products.js has products as an object, not array
+    currentProduct = products[productName];
+    
+    // If found, add the ID to the product object for cart
+    if (currentProduct) {
+        currentProduct.id = productName; // Use the key as ID
+    }
+}
+
+// Add to cart button
+document.getElementById('addToCartBtn')?.addEventListener('click', function() {
+    if (!currentProduct) {
+        alert('Product not found! Product name: ' + productName);
+        return;
+    }
+    
+    // Get quantity (if you have a quantity selector)
+    const quantity = parseInt(document.getElementById('quantityInput')?.value || 1);
+    
+    // Get any variations (colors, sizes, float options, etc.)
+    const variations = {};
+    
+    // Example: Hi-Float selection
+    const hifloatOption = document.querySelector('input[name="hifloat"]:checked');
+    if (hifloatOption) {
+        variations.hifloat = hifloatOption.value;
+    }
+    
+    // Example: Foil weight
+    const foilWeight = document.querySelector('input[name="foilweight"]:checked');
+    if (foilWeight) {
+        variations.foilweight = foilWeight.value;
+    }
+    
+    // Determine price based on selections
+    let productPrice = currentProduct.standardPrice || currentProduct.price || 0;
+    if (variations.hifloat === 'yes') {
+        productPrice = currentProduct.hifloatPrice || productPrice;
+    }
+    
+    // Create cart item with price
+    const cartItem = {
+        ...currentProduct,
+        price: productPrice
+    };
+    
+    // Add to cart
+    cart.addItem(cartItem, quantity, variations);
+});
+</script>
+
+
+</body>
+
+</html>

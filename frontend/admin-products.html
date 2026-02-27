@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Balloons Galore Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-gradient-to-b from-pink-600 to-purple-600 text-white fixed h-full z-20 transform transition-transform lg:translate-x-0 -translate-x-full">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold">🎈 Balloons Galore</h1>
+                <p class="text-pink-200 text-sm">Admin Panel</p>
+            </div>
+            
+            <nav class="mt-6">
+                <a href="admin-dashboard.html" class="flex items-center px-6 py-3 hover:bg-white hover:bg-opacity-10 transition">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Dashboard
+                </a>
+                
+                <a href="admin-orders.html" class="flex items-center px-6 py-3 hover:bg-white hover:bg-opacity-10 transition">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    Orders
+                </a>
+                
+                <a href="admin-products.html" class="flex items-center px-6 py-3 bg-white bg-opacity-20 border-l-4 border-white">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                    Products
+                </a>
+                
+                <a href="admin-customers.html" class="flex items-center px-6 py-3 hover:bg-white hover:bg-opacity-10 transition">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    Customers
+                </a>
+                
+                <div class="mt-6 px-6">
+                    <button onclick="logout()" class="flex items-center w-full px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        Logout
+                    </button>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 lg:ml-64">
+            <!-- Top Bar -->
+            <header class="bg-white shadow-sm sticky top-0 z-10">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div class="flex items-center">
+                        <button onclick="toggleSidebar()" class="lg:hidden mr-4 text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                        <h2 class="text-2xl font-bold text-gray-800">Products Management</h2>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="text-right">
+                            <p class="text-sm font-semibold text-gray-800" id="adminName">Admin User</p>
+                            <p class="text-xs text-gray-500" id="adminEmail">admin@example.com</p>
+                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                            A
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="p-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Total Products</p>
+                                <p class="text-3xl font-bold text-gray-800 mt-2" id="totalProducts">-</p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Categories</p>
+                                <p class="text-3xl font-bold text-gray-800 mt-2" id="totalCategories">-</p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Helium Balloons</p>
+                                <p class="text-3xl font-bold text-gray-800 mt-2" id="heliumCount">-</p>
+                            </div>
+                            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-2xl">
+                                🎈
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Other Products</p>
+                                <p class="text-3xl font-bold text-gray-800 mt-2" id="otherCount">-</p>
+                            </div>
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl">
+                                🎁
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Box -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-xl mb-6">
+                    <div class="flex items-start">
+                        <svg class="w-6 h-6 text-blue-500 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <h3 class="text-lg font-bold text-blue-900 mb-2">Products are managed in JavaScript</h3>
+                            <p class="text-blue-800 mb-3">Your products are stored in <code class="bg-blue-100 px-2 py-1 rounded">frontend/js/products.js</code> as a JavaScript object. This makes them easy to manage and doesn't require database storage.</p>
+                            <p class="text-blue-800 text-sm mb-3"><strong>To add/edit products:</strong> Open <code class="bg-blue-100 px-2 py-1 rounded">products.js</code> and add new product objects with details like name, price, images, etc.</p>
+                            <p class="text-blue-800 text-sm"><strong>Example product structure:</strong></p>
+                            <pre class="bg-blue-900 text-blue-100 p-4 rounded-lg text-xs mt-2 overflow-x-auto">'product-id': {
+    name: 'Product Name',
+    category: 'helium',
+    image: 'images/product.jpg',
+    standardPrice: 350,
+    hifloatPrice: 400,
+    description: [...],
+    delivery: [...]
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products List -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold text-gray-800">All Products</h3>
+                        <div class="flex gap-3">
+                            <select id="categoryFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500">
+                                <option value="">All Categories</option>
+                                <option value="helium">Helium Balloons</option>
+                                <option value="accessories">Balloons & Accessories</option>
+                                <option value="flowers">Flowers</option>
+                                <option value="cakes">Cakes & Desserts</option>
+                                <option value="chocolates">Chocolates & Gifts</option>
+                            </select>
+                            <input 
+                                type="text" 
+                                id="searchInput"
+                                placeholder="Search products..."
+                                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500"
+                            >
+                        </div>
+                    </div>
+
+                    <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <div class="col-span-full text-center py-12">
+                            <div class="animate-spin rounded-full h-12 w-12 border-4 border-pink-500 border-t-transparent mx-auto mb-4"></div>
+                            <p class="text-gray-500">Loading products...</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/admin-auth.js"></script>
+    <script src="js/products.js"></script>
+    <script>
+        // Load and display products
+        function loadProducts(filterCategory = '', searchTerm = '') {
+            try {
+                // Check if products is loaded
+                if (typeof products === 'undefined') {
+                    document.getElementById('productsGrid').innerHTML = `
+                        <div class="col-span-full text-center py-12 text-red-500">
+                            <p class="font-bold mb-2">products.js not loaded!</p>
+                            <p class="text-sm">Make sure products.js exists and is loaded before this script.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Convert products object to array
+                let productsArray = Object.entries(products).map(([id, product]) => ({
+                    id,
+                    ...product
+                }));
+
+                // Filter by category
+                if (filterCategory) {
+                    productsArray = productsArray.filter(p => p.category === filterCategory);
+                }
+
+                // Search
+                if (searchTerm) {
+                    const term = searchTerm.toLowerCase();
+                    productsArray = productsArray.filter(p => 
+                        p.name.toLowerCase().includes(term) ||
+                        (p.category && p.category.toLowerCase().includes(term))
+                    );
+                }
+
+                displayProducts(productsArray);
+                updateStats(Object.values(products));
+
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('productsGrid').innerHTML = `
+                    <div class="col-span-full text-center py-12 text-red-500">
+                        <p class="font-bold">Error loading products</p>
+                        <p class="text-sm mt-2">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Display products
+        function displayProducts(productsArray) {
+            const grid = document.getElementById('productsGrid');
+
+            if (productsArray.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-400">
+                        <p class="text-lg font-bold mb-2">No products found</p>
+                        <p class="text-sm">Try a different search or filter</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = productsArray.map(product => {
+                const price = product.standardPrice || product.price || 0;
+                const image = product.image || 'images/placeholder.jpg';
+
+                return `
+                    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition">
+                        <div class="aspect-square bg-cover bg-center" style="background-image: url('${image}');"></div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-gray-800 mb-1 truncate">${escapeHtml(product.name)}</h4>
+                            <p class="text-sm text-gray-500 mb-2 capitalize">${product.category || 'Uncategorized'}</p>
+                            <p class="text-lg font-bold text-pink-600">Rs. ${price.toLocaleString()}</p>
+                            <div class="mt-3 pt-3 border-t flex gap-2">
+                                <a href="helium-des.html?product=${product.id}" target="_blank" class="flex-1 text-center bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-lg text-sm font-medium transition">
+                                    View
+                                </a>
+                                <button onclick="alert('Edit feature coming soon!\\n\\nFor now, edit products in js/products.js')" class="flex-1 bg-pink-500 hover:bg-pink-600 text-white py-2 rounded-lg text-sm font-medium transition">
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Update stats
+        function updateStats(productsArray) {
+            const total = productsArray.length;
+            const categories = new Set(productsArray.map(p => p.category)).size;
+            const helium = productsArray.filter(p => p.category === 'helium').length;
+            const other = total - helium;
+
+            document.getElementById('totalProducts').textContent = total;
+            document.getElementById('totalCategories').textContent = categories;
+            document.getElementById('heliumCount').textContent = helium;
+            document.getElementById('otherCount').textContent = other;
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Filter handler
+        document.getElementById('categoryFilter').addEventListener('change', (e) => {
+            const searchTerm = document.getElementById('searchInput').value;
+            loadProducts(e.target.value, searchTerm);
+        });
+
+        // Search handler
+        let searchTimeout;
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const category = document.getElementById('categoryFilter').value;
+                loadProducts(category, e.target.value);
+            }, 300);
+        });
+
+        // Load on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+        });
+    </script>
+</body>
+</html>
