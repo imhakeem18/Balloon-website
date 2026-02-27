@@ -9,9 +9,9 @@ A full-stack e-commerce platform for a balloon and gift delivery business based 
 
 | | |
 |---|---|
-| ![Homepage](screenshots/homepage.png) | ![Products](screenshots/products.png) |
-| ![Checkout](screenshots/checkout.png) | ![Order Confirmation](screenshots/order-confirmation.png) |
-| ![Admin Dashboard](screenshots/admin-dashboard.png) | ![Admin Orders](screenshots/admin-orders.png) |
+| ![Homepage](BAGG-SS/balloons-galore-home-page.png) | ![Products](BAGG-SS/Balloons-Galore-Products-page.png) |
+| ![Checkout](BAGG-SS/balloons-galore-checkout-page.png) | ![Cart](BAGG-SS/balloons-galore-cart-page.png) |
+| ![Product Description ](BAGG-SS/balloons-galore-product-des-page.png) 
 
 ---
 
